@@ -15,6 +15,9 @@
                     <a href="{{ route('shop.home.index') }}" aria-label="Logo">
                         @if ($logo = core()->getCurrentChannel()->logo_url)
                             <img class="logo" src="{{ $logo }}" alt="" />
+                            @if ($logo = core()->getCurrentChannel()->logo_url)
+                            <span class="store-name">{{core()->getCurrentChannel()->name}}</span>
+                            @endif
                         @else
                             <img class="logo" src="{{ bagisto_asset('images/logo.svg') }}" alt="" />
                         @endif
