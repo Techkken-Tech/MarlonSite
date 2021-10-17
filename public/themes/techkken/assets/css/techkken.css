@@ -19,16 +19,49 @@
     font-family: poppins-thin;
     src: url(../fonts/Poppins-Thin.woff);
 }
+@font-face {
+    font-family: poppins-light;
+    src: url(../fonts/Poppins-Light.woff);
+}
 
 :root {
     --primary: #314615;
     --white: #ffffff;
     --accent: #eab93c;
     --image-maxheight: 385px;
+    --black: #000;
   }
-  .tk-row{
-    margin:0;
-  }
+
+a:active, a:focus, a:hover, a:link, a:visited{
+    color: var(--black);    
+}  
+.tk-row{
+margin:0;
+}
+.tk-block{
+    display: block;
+}
+.tk-text-size1{
+    font-size: 29px;
+}
+.tk-text-size2{
+    font-size: 16px;
+}
+.tk-fontfamily1-thin{
+    font-family: poppins-thin;
+}
+.tk-fontfamily1-regular{
+    font-family: poppins-regular;
+}
+.tk-fontfamily1-light{
+    font-family: poppins-light;
+}
+.tk-text-bold{
+    font-weight: 600;
+}
+#app .container{
+    width: unset;
+}
 
 
 #header {
@@ -216,6 +249,9 @@ promote-content span.title {
 }
 
 
+.banner-service {
+    padding-bottom: 75px;
+}
 /** end **/
 
 /** Featured Products **/
