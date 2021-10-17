@@ -45,3 +45,12 @@ password:admin123
 
 **DATABASE**
 create database utf8_general_ci
+
+**UPDATES**
+- public/
+
+- storage/
+
+- php artisan storage:link
+
+- .env => APR_URL = http://localhost:8000
