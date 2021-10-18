@@ -282,6 +282,9 @@ return [
         Webkul\SocialLogin\Providers\SocialLoginServiceProvider::class,
         Webkul\DebugBar\Providers\DebugBarServiceProvider::class,
         Webkul\Marketing\Providers\MarketingServiceProvider::class,
+
+        //Techkken packages
+        Techkken\Cashier\Providers\CashierServiceProvider::class,
     ],
 
     /*
