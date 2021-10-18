@@ -1,4 +1,5 @@
 @extends('shop::layouts.master')
+@section('pageclass', 'tk-home')
 
 @php
     $channel = core()->getCurrentChannel();
