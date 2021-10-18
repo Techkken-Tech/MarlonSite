@@ -29,7 +29,7 @@ return [
             'views_path' => 'resources/themes/techkken/views',
             'assets_path' => 'public/themes/techkken/assets',
             'name' => 'Techkken',
-            'parent' => 'velocity'
+            'parent' => 'default'
         ]
     ],
 

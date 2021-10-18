@@ -25,4 +25,4 @@ class Medium implements FilterInterface
 
         return $image;
     }
-}GIT 
+}
