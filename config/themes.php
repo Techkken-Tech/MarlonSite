@@ -23,6 +23,14 @@ return [
             'name' => 'Velocity',
             'parent' => 'default'
         ],
+
+        
+        'techkken' => [
+            'views_path' => 'resources/themes/techkken/views',
+            'assets_path' => 'public/themes/techkken/assets',
+            'name' => 'Techkken',
+            'parent' => 'velocity'
+        ]
     ],
 
     'admin-default' => 'default',
