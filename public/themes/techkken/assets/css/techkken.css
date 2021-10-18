@@ -1,4 +1,4 @@
-/*common*/
+*common*/
 @font-face {
     font-family: campton-medium;
     src: url(../fonts/Campton-Medium.woff);
@@ -44,11 +44,19 @@ section.product-detail {
     padding-top: 30px;
 }
 
+input::placeholder{
+    font-family:poppins-light;
+}
+
 .tk-row{
 margin:0;
 }
+
 .tk-block{
     display: block;
+}
+.tk-flex{
+    display: flex;
 }
 .tk-text-size1{
     font-size: 29px;
@@ -70,6 +78,7 @@ margin:0;
 }
 #app .container{
     width: unset;
+    padding: 0;
 }
 
 
@@ -302,6 +311,73 @@ span.featured-seperator {
 .product-price {
     font-size: 20px;
 }
+
+
+
+
+
+
+
+/**Newsletter **/
+
+.tk-row.newsletter-block {
+    min-height: 242px;
+    background-size: cover;
+    background-image: url(../images/home/newsletter.webp);
+}
+
+.newsletter-block .tk-flex  {
+    min-height: 242px;
+    max-height: 242px;
+    color: var(--white);
+    font-family: 'poppins-light';
+    text-shadow: 0px 3px 6px #000000a6;
+  
+}
+
+.newsletter-block .title {
+    line-height: normal;
+    align-self: center;
+    margin-left: 80px;
+}
+
+
+
+.newsletter-block .actions {
+    width: 100%;
+    align-self: center;
+}
+
+#app input.control.subscribe-field {
+    max-width: 315px;
+    font-size: 13px;
+    border-radius: 30px;
+    min-height: 48px;
+    max-height: 48px;
+    border-color: transparent;
+    padding: 0px 30px;
+    font-family: 'poppins-light';
+}
+.control-group .control:focus {
+    border-color: var(--accent) !important;
+}
+
+.newsletter-block .subscribe-btn {
+    background-color: var(--accent);
+    text-transform: uppercase;
+    padding: 0 30px;
+    border-color: transparent;
+    border-radius: 50px;
+    margin-left: 30px;
+    min-height: 48px;
+    color: var(
+    --white);
+}
+.newsletter-block .subscribe-btn:hover {
+    background-color:#c89410
+}
+/** END **/
+
 
 /** TK-icons **/
 .tk-icon{
