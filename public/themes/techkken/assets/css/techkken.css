@@ -35,6 +35,15 @@
 a:active, a:focus, a:hover, a:link, a:visited{
     color: var(--black);    
 }  
+
+body:not(.tk-home) #app {
+    padding-top: 65px;
+}
+
+section.product-detail {
+    padding-top: 30px;
+}
+
 .tk-row{
 margin:0;
 }
