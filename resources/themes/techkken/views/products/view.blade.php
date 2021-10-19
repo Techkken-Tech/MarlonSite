@@ -54,6 +54,16 @@
                     @include ('shop::products.view.gallery')
 
                     <div class="details">
+                        @if ($product->featured)
+                            <div class="sticker popular">
+                                {{ __('Popular') }}
+                            </div>
+                        @endif
+                        @if ($product->new)
+                            <div class="sticker new">
+                                {{ __('New') }}
+                            </div>
+                        @endif
 
                         <div class="product-heading">
                             <span>{{ $product->name }}</span>

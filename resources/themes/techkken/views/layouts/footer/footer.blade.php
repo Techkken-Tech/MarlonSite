@@ -28,19 +28,6 @@
             {!! DbView::make(core()->getCurrentChannel())->field('footer_content')->render() !!}
 
             <div class="list-container">
-                @if(core()->getConfigData('customer.settings.newsletter.subscription'))
-                    <label class="list-heading" for="subscribe-field">{{ __('shop::app.footer.subscribe-newsletter') }}</label>
-                    <div class="form-container">
-                        <form action="{{ route('shop.subscribe') }}">
-                            <div class="control-group" :class="[errors.has('subscriber_email') ? 'has-error' : '']">
-                                <input type="email" id="subscribe-field" class="control subscribe-field" name="subscriber_email" placeholder="Email Address" required><br/>
-
-                                <button class="btn btn-md btn-primary">{{ __('shop::app.subscription.subscribe') }}</button>
-                            </div>
-                        </form>
-                    </div>
-                @endif
-
                 <?php
                     $term = request()->input('term');
 

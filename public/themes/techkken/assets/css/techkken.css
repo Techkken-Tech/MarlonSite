@@ -1,4 +1,4 @@
-*common*/
+/*common*/
 @font-face {
     font-family: campton-medium;
     src: url(../fonts/Campton-Medium.woff);
@@ -9,6 +9,10 @@
 }
 @font-face {
     font-family: poppins-regular;
+    src: url(../fonts/Poppins-Regular.woff);
+}
+@font-face {
+    font-family: poppins-bold;
     src: url(../fonts/Poppins-Bold.woff);
 }
 @font-face {
@@ -23,10 +27,11 @@
     font-family: poppins-light;
     src: url(../fonts/Poppins-Light.woff);
 }
-
 :root {
-    --primary: #314615;
+    --primary: #59855A;
     --white: #ffffff;
+    --white-hover: #c2c2c2;
+    
     --accent: #eab93c;
     --image-maxheight: 385px;
     --black: #000;
@@ -84,15 +89,25 @@ margin:0;
 
 #header {
     color: #fff;
-    background-color: #044606ad;
+    background: #044606ad;
     position: fixed;
     top: 0;
+    transition: 500ms linear; 
     left: 0;
     right: 0;
-    z-index: 999;
+    z-index: 1000;
     box-shadow: 0px 3px 6px #00000099;
     margin:0;
+    height: auto;
     padding: 0 160px;
+}
+body:not(.tk-home) #header{
+    background: #2b641c;
+       transition: background 500ms linear;
+}
+#header.active {
+    background: #2b641c;
+        transition: background 500ms linear;
 }
 #header .header-top div.left-content ul.logo-container li img{
     max-height: 60px;
@@ -128,7 +143,7 @@ margin:0;
     display: inline-block;
     height: 100%;
     color: var(--accent);
-    font-family: 'poppins-regular';
+    font-family: 'poppins-bold';
     font-size: 19px;
     position: relative;
     padding-left: 15px;
@@ -183,7 +198,7 @@ nav.navbar {margin-left: 35px;}
     font-size: 56px;
     color: white;
     line-height: 75px;
-    font-family: poppins-regular;
+    font-family: poppins-bold;
     text-shadow: 5px 4px #4c4c4c59;
 }
 .show-content.show .slider-order{
@@ -256,8 +271,11 @@ promote-content span.title {
     padding: 12px 24px;
     border-radius: 50px;
     text-transform: uppercase;
-    font-family: 'poppins-regular';
+    font-family: 'poppins-bold';
     cursor: pointer;
+}
+.promote-content span.promote-button:hover {
+    background: var(--white-hover);
 }
 
 .banner-container .container {
@@ -388,6 +406,67 @@ span.featured-seperator {
     background-image: url(../images/link-right-arrow.png);
 }
 
+/**Slick**/
+
+
+li#thumb-frame {
+    border-color: var(--accent);
+}
+
+
+/**Product Details **/
+
+.details .sticker {
+    display: inline-block;
+    border-radius: 40px;
+    background-color: #FF0000;
+    color: var(--white);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-family: 'poppins-semibold';
+    text-transform: uppercase;
+}
+
+
+
+
+.details .sticker {
+    display: inline-block;
+    border-radius: 40px;
+    background-color: #FF0000;
+    color: var(--white);
+    padding: 4px 8px;
+    font-size: 12px;
+    font-family: 'poppins-semibold';
+    text-transform: uppercase;
+}
+
+#app .product-heading span {
+    font-size: 30px;
+    font-family: 'poppins-light';
+}
+
+.product-heading {padding-top: 24px;}
+
+section.product-detail div.layouter .form-container .details .product-price {
+    font-size: 30px;
+    color: var(--primary);
+}
+
+.details .product-price span {
+    font-weight: normal;
+    font-family: 'poppins-regular';
+}
+
+.stock-status {
+    font-family: 'poppins-regular';
+}
+
+section.product-detail div.layouter .form-container .details .description {
+    color: #939393;
+}
+
+
 /** END **/
 
 
@@ -413,9 +492,10 @@ span.featured-seperator {
         top: 0;
         left: 0;
         right: 0;
-        z-index: 999;
         box-shadow: 0px 3px 6px #00000029;
         padding: 0 0;
+        z-index: 10000;
+        transition: all 0.2s ease-in-out;
     
     }
     #header .header-top{
