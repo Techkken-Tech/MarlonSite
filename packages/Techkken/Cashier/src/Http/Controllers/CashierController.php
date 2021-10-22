@@ -3,6 +3,7 @@
 namespace Techkken\Cashier\Http\Controllers;
 
 use Illuminate\Support\Facades\Event;
+use Techkken\Cashier\DataGrids\CashierDataGrid;
 use Webkul\Admin\DataGrids\OrderDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
 use Webkul\Sales\Repositories\OrderRepository;
@@ -60,7 +61,7 @@ class CashierController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return app(OrderDataGrid::class)->toJson();
+            return app(CashierDataGrid::class)->toJson();
         }
 
         return view($this->_config['view']);
