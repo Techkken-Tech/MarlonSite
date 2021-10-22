@@ -14,6 +14,7 @@
         <a href="{{ route('shop.productOrCategory.index', $product->url_key) }}" title="{{ $product->name }}">
             <img src="{{ $productBaseImage['medium_image_url'] }}" onerror="this.src='{{ asset('vendor/webkul/ui/assets/images/product/meduim-product-placeholder.png') }}'" alt="" height="500"/>
         </a>
+        @include('shop::products.add-buttons', ['product' => $product])
     </div>
 
     <div class="product-information">
@@ -28,7 +29,6 @@
 
         @include ('shop::products.price', ['product' => $product])
 
-        @include('shop::products.add-buttons', ['product' => $product])
     </div>
 
 </div>

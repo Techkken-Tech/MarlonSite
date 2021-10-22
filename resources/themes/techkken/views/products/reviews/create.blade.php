@@ -85,12 +85,7 @@
 
                         <image-wrapper></image-wrapper>
 
-                        <span class="control-error" v-if="{!! $errors->has('images.*') !!}">
-                            @php $count=1 @endphp
-                            @foreach ($errors->get('images.*') as $key => $message)
-                                @php echo str_replace($key, 'Image'.$count, $message[0]); $count++ @endphp
-                            @endforeach
-                        </span>
+                     
                     </div>
 
                     <button type="submit" class="btn btn-lg btn-primary">

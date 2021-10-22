@@ -71,9 +71,10 @@
                 {!! view_render_event('bagisto.shop.layout.content.after') !!}
 
             </main>
+            @include("shop::blocks.newsletter")
 
         </div>
-
+      
         {!! view_render_event('bagisto.shop.layout.footer.before') !!}
 
         @include('shop::layouts.footer.footer')

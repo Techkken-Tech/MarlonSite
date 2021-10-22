@@ -31,8 +31,8 @@
     --primary: #59855A;
     --white: #ffffff;
     --white-hover: #c2c2c2;
-    
     --accent: #eab93c;
+    --accent-hover: #d0a129;
     --image-maxheight: 385px;
     --black: #000;
   }
@@ -41,12 +41,19 @@ a:active, a:focus, a:hover, a:link, a:visited{
     color: var(--black);    
 }  
 
+.btn.btn-lg.btn-primary {
+    background-color: var(--accent);
+    color: black;
+    text-transform: uppercase;
+    font-family: 'poppins-semibold';
+}
+
 body:not(.tk-home) #app {
-    padding-top: 65px;
+    padding-top: 100px;
 }
 
 section.product-detail {
-    padding-top: 30px;
+
 }
 
 input::placeholder{
@@ -95,7 +102,7 @@ margin:0;
     transition: 500ms linear; 
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1;
     box-shadow: 0px 3px 6px #00000099;
     margin:0;
     height: auto;
@@ -187,6 +194,13 @@ nav.navbar {margin-left: 35px;}
     bottom: 25%;
     left: 15%;
 }
+.show-content.show .slider-container.withbg{
+    position:absolute;
+    bottom: 25%;
+    left: 15%;
+    background-color: #16111175;
+    padding: 20px;
+}
 
 .show-content.show a {
     color:white;
@@ -259,6 +273,7 @@ promote-content span.title {
     font-family: 'poppins-semibold';
     display: block;
     line-height: 31.4px;
+    text-shadow: 0px 3px 6px #000000a6;
 }
 
 .promote-content span.promote-button {
@@ -322,18 +337,92 @@ span.featured-seperator {
     font-size: 16px;
 }
 
-#app .cart-wish-wrap {
-    display: none;
+#app .product-image .cart-wish-wrap {
+   max-width: 400px;
+   opacity: 0;
+   width: 100%;
+   display: block;
+   position: relative;
+   bottom: 59px;
+   transition: opacity 500ms;
 }
+#app .product-image .cart-wish-wrap form {
+   width: 100%;
+}
+#app .product-image .cart-wish-wrap button {
+   width:100%;
+   text-align: center;
+   padding: 20px;
+   font-family: 'poppins-bold';
+}
+#app .product-image .cart-wish-wrap button:hover {
+   background-color: var(--accent);
+   opacity:1;
+}
+#app .product-image:hover .cart-wish-wrap {
+   opacity:1;
+}
+
 
 .product-price {
     font-size: 20px;
 }
 
+.quantity label {
+    font-family: 'poppins-light';
+}
+
+#app section.product-detail div.layouter .form-container .details .quantity {
+    border-top: none;
+    width: auto;
+    display: inline-block !important;
+}
+
+.add-to-buttons {
+    display: inline-block;
+}
+
+.add-to-buttons .btn-primary.addtocart, .add-to-buttons .btn-primary.addtocart:active, .add-to-buttons .btn-primary.addtocart:focus{
+    color: black;
+    font-size: 13px;
+    background-color: var(--accent);
+    border-radius: 50px !important;
+    border:none;
+    font-family: poppins-semibold;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    margin-left: 12px;
+}
 
 
+#app .product-image-group {
+    height: auto;
+    width: auto;
+    min-width: 35%;
+    margin-bottom: 50px;
+}
+
+.product-detail ul.nav.nav-tabs {
+    font-size: 13px;
+    font-family: 'poppins-semibold';
+    text-transform: uppercase;
+}
 
 
+.product-detail .nav li a {
+    font-family: 'poppins-semibold';
+}
+.product-detail .nav li.active a {
+   color: var(--accent);
+}
+.tab-content {
+    padding-top: 20px;
+}
+
+
+#app span.icon.star-icon {
+    background-image: url(../images/product/star_review.svg);
+}
 
 
 /**Newsletter **/
@@ -467,6 +556,70 @@ section.product-detail div.layouter .form-container .details .description {
 }
 
 
+#app .rating-reviews .overall .review-info .number {
+    font-size: 60px;
+    font-family: 'poppins-semibold';
+    margin: 14px;
+}
+
+.rating-reviews .review-info  span.stars {
+    display: block;
+    padding-top: 12px;
+    /* padding-bottom: 12px; */
+}
+
+#app .rating-reviews .overall {
+    display: block;
+    text-align: center;
+    padding-top: 20px;
+}
+
+a.btn.btn-lg.btn-primary {
+    background-color: var(--accent);
+    border-radius: 40px !important;
+    font-family: 'poppins-semibold';
+    font-size: 13px;
+    text-transform: uppercase;
+    color: black;
+}
+a.btn.btn-lg.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+.review-info  a.btn.btn-lg.btn-primary:hover {
+    margin-top:20px;
+}
+.rating-reviews .overall .review-info .total-reviews {
+    font-size: 12px;
+    color: #b9b9b9;
+    font-family: 'poppins-regular' !important;
+}
+
+.overall .review-info {
+    padding-bottom: 12px;
+}
+
+
+
+
+.rating-reviews .reviews a.view-all {
+    font-family: 'poppins-semibold';
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.rating-reviews .reviews .review .title {
+    font-family: 'poppins-semibold';
+}
+
+
+#app .attached-products-wrapper .title {
+    font-size: 29px;
+    text-align: left;
+}
+
+#app .attached-products-wrapper {
+    margin-top: 80px;
+}
 /** END **/
 
 
@@ -479,7 +632,25 @@ section.product-detail div.layouter .form-container .details .description {
 /**END**/
 
 
+/** REVIEW PAGE **/
 
+
+section.review .review-layouter .ratings-reviews .right-side .rater .line-bar div.line-value {
+    background-color: var(--accent);
+}
+
+section.review .review-layouter .product-info .product-price span.pro-price {
+    color: var(--primary);
+}
+
+a {}
+
+section.review .review-layouter .product-info .product-name a span{
+    font-family: 'poppins-semibold';
+}
+
+
+/**END**/
 
 
 
@@ -516,6 +687,10 @@ section.product-detail div.layouter .form-container .details .description {
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
 
+#app .rating-reviews .reviews {
+    margin-top: 0px;
+}
+
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -527,5 +702,6 @@ section.product-detail div.layouter .form-container .details .description {
 @media only screen and (min-width: 1200px) {
 
 }
+
 
 

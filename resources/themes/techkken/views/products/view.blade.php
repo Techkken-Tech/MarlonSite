@@ -1,159 +1,153 @@
 @extends('shop::layouts.master')
 
 @section('page_title')
-    {{ trim($product->meta_title) != "" ? $product->meta_title : $product->name }}
+{{ trim($product->meta_title) != "" ? $product->meta_title : $product->name }}
 @stop
 
 @section('seo')
-    <meta name="description" content="{{ trim($product->meta_description) != "" ? $product->meta_description : \Illuminate\Support\Str::limit(strip_tags($product->description), 120, '') }}"/>
+<meta name="description" content="{{ trim($product->meta_description) != "" ? $product->meta_description : \Illuminate\Support\Str::limit(strip_tags($product->description), 120, '') }}" />
 
-    <meta name="keywords" content="{{ $product->meta_keywords }}"/>
+<meta name="keywords" content="{{ $product->meta_keywords }}" />
 
-    @if (core()->getConfigData('catalog.rich_snippets.products.enable'))
-        <script type="application/ld+json">
-            {{ app('Webkul\Product\Helpers\SEO')->getProductJsonLd($product) }}
-        </script>
-    @endif
+@if (core()->getConfigData('catalog.rich_snippets.products.enable'))
+<script type="application/ld+json">
+{{ app('Webkul\Product\Helpers\SEO')->getProductJsonLd($product) }}
+</script>
+@endif
 
-    <?php $productBaseImage = productimage()->getProductBaseImage($product); ?>
+<?php $productBaseImage = productimage()->getProductBaseImage($product); ?>
 
-    <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="twitter:title" content="{{ $product->name }}" />
+<meta name="twitter:title" content="{{ $product->name }}" />
 
-    <meta name="twitter:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
+<meta name="twitter:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
 
-    <meta name="twitter:image:alt" content="" />
+<meta name="twitter:image:alt" content="" />
 
-    <meta name="twitter:image" content="{{ $productBaseImage['medium_image_url'] }}" />
+<meta name="twitter:image" content="{{ $productBaseImage['medium_image_url'] }}" />
 
-    <meta property="og:type" content="og:product" />
+<meta property="og:type" content="og:product" />
 
-    <meta property="og:title" content="{{ $product->name }}" />
+<meta property="og:title" content="{{ $product->name }}" />
 
-    <meta property="og:image" content="{{ $productBaseImage['medium_image_url'] }}" />
+<meta property="og:image" content="{{ $productBaseImage['medium_image_url'] }}" />
 
-    <meta property="og:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
+<meta property="og:description" content="{!! htmlspecialchars(trim(strip_tags($product->description))) !!}" />
 
-    <meta property="og:url" content="{{ route('shop.productOrCategory.index', $product->url_key) }}" />
+<meta property="og:url" content="{{ route('shop.productOrCategory.index', $product->url_key) }}" />
 @stop
 
 @section('content-wrapper')
 
-    {!! view_render_event('bagisto.shop.products.view.before', ['product' => $product]) !!}
+{!! view_render_event('bagisto.shop.products.view.before', ['product' => $product]) !!}
 
-    <section class="product-detail">
+<section class="product-detail">
 
-        <div class="layouter">
-            <product-view>
-                <div class="form-container">
-                    @csrf()
+    <div class="layouter">
+        <product-view>
+            <div class="form-container">
+                @csrf()
 
-                    <input type="hidden" name="product_id" value="{{ $product->product_id }}">
+                <input type="hidden" name="product_id" value="{{ $product->product_id }}">
 
-                    @include ('shop::products.view.gallery')
+                @include ('shop::products.view.gallery')
 
-                    <div class="details">
-                        @if ($product->featured)
-                            <div class="sticker popular">
-                                {{ __('Popular') }}
-                            </div>
-                        @endif
-                        @if ($product->new)
-                            <div class="sticker new">
-                                {{ __('New') }}
-                            </div>
-                        @endif
-
-                        <div class="product-heading">
-                            <span>{{ $product->name }}</span>
-                        </div>
-
-                        @include ('shop::products.review', ['product' => $product])
-
-                        @include ('shop::products.price', ['product' => $product])
-
-                        @if (Webkul\Tax\Helpers\Tax::isTaxInclusive() && $product->getTypeInstance()->getTaxCategory())
-                            <div>
-                                {{ __('shop::app.products.tax-inclusive') }}
-                            </div>
-                        @endif
-
-                        @if (count($product->getTypeInstance()->getCustomerGroupPricingOffers()) > 0)
-                            <div class="regular-price">
-                                @foreach ($product->getTypeInstance()->getCustomerGroupPricingOffers() as $offers)
-                                    <p> {{ $offers }} </p>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        @include ('shop::products.view.stock', ['product' => $product])
-
-                        {!! view_render_event('bagisto.shop.products.view.short_description.before', ['product' => $product]) !!}
-
-                        <div class="description">
-                            {!! $product->short_description !!}
-                        </div>
-
-                        {!! view_render_event('bagisto.shop.products.view.short_description.after', ['product' => $product]) !!}
-
-
-                        {!! view_render_event('bagisto.shop.products.view.quantity.before', ['product' => $product]) !!}
-
-                        @if ($product->getTypeInstance()->showQuantityBox())
-                            <quantity-changer></quantity-changer>
-                        @else
-                            <input type="hidden" name="quantity" value="1">
-                        @endif
-
-                        {!! view_render_event('bagisto.shop.products.view.quantity.after', ['product' => $product]) !!}
-
-                        @include ('shop::products.view.configurable-options')
-
-                        @include ('shop::products.view.downloadable')
-
-                        @include ('shop::products.view.grouped-products')
-
-                        @include ('shop::products.view.bundle-options')
-
-                        {!! view_render_event('bagisto.shop.products.view.description.before', ['product' => $product]) !!}
-
-                        <accordian :title="'{{ __('shop::app.products.description') }}'" :active="true">
-                            <div slot="header">
-                                {{ __('shop::app.products.description') }}
-                                <i class="icon expand-icon right"></i>
-                            </div>
-
-                            <div slot="body">
-                                <div class="full-description">
-                                    {!! $product->description !!}
-                                </div>
-                            </div>
-                        </accordian>
-
-                        {!! view_render_event('bagisto.shop.products.view.description.after', ['product' => $product]) !!}
-
-                        @include ('shop::products.view.attributes')
-
-                        @include ('shop::products.view.reviews')
+                <div class="details">
+                    @if ($product->featured)
+                    <div class="sticker popular">
+                        {{ __('Popular') }}
                     </div>
+                    @endif
+                    @if ($product->new)
+                    <div class="sticker new">
+                        {{ __('New') }}
+                    </div>
+                    @endif
+
+                    <div class="product-heading">
+                        <span>{{ $product->name }}</span>
+                    </div>
+
+                    @include ('shop::products.review', ['product' => $product])
+
+                    @include ('shop::products.price', ['product' => $product])
+
+                    @if (Webkul\Tax\Helpers\Tax::isTaxInclusive() && $product->getTypeInstance()->getTaxCategory())
+                    <div>
+                        {{ __('shop::app.products.tax-inclusive') }}
+                    </div>
+                    @endif
+
+                    @if (count($product->getTypeInstance()->getCustomerGroupPricingOffers()) > 0)
+                    <div class="regular-price">
+                        @foreach ($product->getTypeInstance()->getCustomerGroupPricingOffers() as $offers)
+                        <p> {{ $offers }} </p>
+                        @endforeach
+                    </div>
+                    @endif
+
+                    @include ('shop::products.view.stock', ['product' => $product])
+
+                    {!! view_render_event('bagisto.shop.products.view.short_description.before', ['product' => $product]) !!}
+
+                    <div class="description">
+                        {!! $product->short_description !!}
+                    </div>
+
+                    {!! view_render_event('bagisto.shop.products.view.short_description.after', ['product' => $product]) !!}
+
+
+                    {!! view_render_event('bagisto.shop.products.view.quantity.before', ['product' => $product]) !!}
+
+                    @if ($product->getTypeInstance()->showQuantityBox())
+                    <quantity-changer></quantity-changer>
+                    @else
+                    <input type="hidden" name="quantity" value="1">
+                    @endif
+
+                    @include ('shop::products.view.product-add')
+
+                    {!! view_render_event('bagisto.shop.products.view.quantity.after', ['product' => $product]) !!}
+
+                    @include ('shop::products.view.configurable-options')
+
+                    @include ('shop::products.view.downloadable')
+
+                    @include ('shop::products.view.grouped-products')
+
+                    @include ('shop::products.view.bundle-options')
+
                 </div>
-            </product-view>
+            </div>
+        </product-view>
+        <ul class="nav nav-tabs">
+            <li ><a data-toggle="tab" href="#product-description"><?php echo __('Description');?></a></li>
+            <li class="active"><a data-toggle="tab" href="#product-reviews"><?php echo __('Reviews');?></a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="product-description" class="container tab-pane">
+            {!! $product->description !!}
+            </div>
+            <div id="product-reviews" class="container tab-pane fade  fade in active">
+            @include ('shop::products.view.reviews')
+            </div>
         </div>
+    </div>
 
-        @include ('shop::products.view.related-products')
+    @include ('shop::products.view.related-products')
 
-        @include ('shop::products.view.up-sells')
+    @include ('shop::products.view.up-sells')
 
-    </section>
+</section>
 
-    {!! view_render_event('bagisto.shop.products.view.after', ['product' => $product]) !!}
+{!! view_render_event('bagisto.shop.products.view.after', ['product' => $product]) !!}
 @endsection
 
 @push('scripts')
 
-    <script type="text/x-template" id="product-view-template">
-        <form method="POST" id="product-form" action="{{ route('cart.add', $product->product_id) }}" @click="onSubmit($event)">
+<script type="text/x-template" id="product-view-template">
+    <form method="POST" id="product-form" action="{{ route('cart.add', $product->product_id) }}" @click="onSubmit($event)">
 
             <input type="hidden" name="is_buy_now" v-model="is_buy_now">
 
@@ -162,8 +156,8 @@
         </form>
     </script>
 
-    <script type="text/x-template" id="quantity-changer-template">
-        <div class="quantity control-group" :class="[errors.has(controlName) ? 'has-error' : '']">
+<script type="text/x-template" id="quantity-changer-template">
+    <div class="quantity control-group" :class="[errors.has(controlName) ? 'has-error' : '']">
             <label class="required">{{ __('shop::app.products.quantity') }}</label>
             <span class="quantity-container">
                 <button type="button" class="decrease" @click="decreaseQty()">-</button>
@@ -177,139 +171,137 @@
         </div>
     </script>
 
-    <script>
+<script>
+    Vue.component('product-view', {
 
-        Vue.component('product-view', {
+        template: '#product-view-template',
 
-            template: '#product-view-template',
+        inject: ['$validator'],
 
-            inject: ['$validator'],
-
-            data: function() {
-                return {
-                    is_buy_now: 0,
-                }
-            },
-
-            methods: {
-                onSubmit: function(e) {
-                    if (e.target.getAttribute('type') != 'submit')
-                        return;
-
-                    e.preventDefault();
-
-                    var this_this = this;
-
-                    this.$validator.validateAll().then(function (result) {
-                        if (result) {
-                            this_this.is_buy_now = e.target.classList.contains('buynow') ? 1 : 0;
-
-                            setTimeout(function() {
-                                document.getElementById('product-form').submit();
-                            }, 0);
-                        }
-                    });
-                }
+        data: function() {
+            return {
+                is_buy_now: 0,
             }
-        });
+        },
 
-        Vue.component('quantity-changer', {
-            template: '#quantity-changer-template',
+        methods: {
+            onSubmit: function(e) {
+                if (e.target.getAttribute('type') != 'submit')
+                    return;
 
-            inject: ['$validator'],
+                e.preventDefault();
 
-            props: {
-                controlName: {
-                    type: String,
-                    default: 'quantity'
-                },
+                var this_this = this;
 
-                quantity: {
-                    type: [Number, String],
-                    default: 1
-                },
+                this.$validator.validateAll().then(function(result) {
+                    if (result) {
+                        this_this.is_buy_now = e.target.classList.contains('buynow') ? 1 : 0;
 
-                minQuantity: {
-                    type: [Number, String],
-                    default: 1
-                },
-
-                validations: {
-                    type: String,
-                    default: 'required|numeric|min_value:1'
-                }
-            },
-
-            data: function() {
-                return {
-                    qty: this.quantity
-                }
-            },
-
-            watch: {
-                quantity: function (val) {
-                    this.qty = val;
-
-                    this.$emit('onQtyUpdated', this.qty)
-                }
-            },
-
-            methods: {
-                decreaseQty: function() {
-                    if (this.qty > this.minQuantity)
-                        this.qty = parseInt(this.qty) - 1;
-
-                    this.$emit('onQtyUpdated', this.qty)
-                },
-
-                increaseQty: function() {
-                    this.qty = parseInt(this.qty) + 1;
-
-                    this.$emit('onQtyUpdated', this.qty)
-                }
+                        setTimeout(function() {
+                            document.getElementById('product-form').submit();
+                        }, 0);
+                    }
+                });
             }
-        });
+        }
+    });
 
-        $(document).ready(function() {
-            var addTOButton = document.getElementsByClassName('add-to-buttons')[0];
-            document.getElementById('loader').style.display="none";
-            addTOButton.style.display="flex";
-        });
+    Vue.component('quantity-changer', {
+        template: '#quantity-changer-template',
 
-        window.onload = function() {
-            var thumbList = document.getElementsByClassName('thumb-list')[0];
-            var thumbFrame = document.getElementsByClassName('thumb-frame');
-            var productHeroImage = document.getElementsByClassName('product-hero-image')[0];
+        inject: ['$validator'],
 
+        props: {
+            controlName: {
+                type: String,
+                default: 'quantity'
+            },
+
+            quantity: {
+                type: [Number, String],
+                default: 1
+            },
+
+            minQuantity: {
+                type: [Number, String],
+                default: 1
+            },
+
+            validations: {
+                type: String,
+                default: 'required|numeric|min_value:1'
+            }
+        },
+
+        data: function() {
+            return {
+                qty: this.quantity
+            }
+        },
+
+        watch: {
+            quantity: function(val) {
+                this.qty = val;
+
+                this.$emit('onQtyUpdated', this.qty)
+            }
+        },
+
+        methods: {
+            decreaseQty: function() {
+                if (this.qty > this.minQuantity)
+                    this.qty = parseInt(this.qty) - 1;
+
+                this.$emit('onQtyUpdated', this.qty)
+            },
+
+            increaseQty: function() {
+                this.qty = parseInt(this.qty) + 1;
+
+                this.$emit('onQtyUpdated', this.qty)
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        var addTOButton = document.getElementsByClassName('add-to-buttons')[0];
+        document.getElementById('loader').style.display = "none";
+    });
+
+    window.onload = function() {
+        var thumbList = document.getElementsByClassName('thumb-list')[0];
+        var thumbFrame = document.getElementsByClassName('thumb-frame');
+        var productHeroImage = document.getElementsByClassName('product-hero-image')[0];
+
+        if (thumbList && productHeroImage) {
+
+            for (let i = 0; i < thumbFrame.length; i++) {
+                thumbFrame[i].style.height = (productHeroImage.offsetHeight / 4) + "px";
+                thumbFrame[i].style.width = (productHeroImage.offsetHeight / 4) + "px";
+            }
+
+            if (screen.width > 720) {
+                thumbList.style.width = (productHeroImage.offsetHeight / 4) + "px";
+                thumbList.style.minWidth = (productHeroImage.offsetHeight / 4) + "px";
+                thumbList.style.height = productHeroImage.offsetHeight + "px";
+            }
+        }
+
+        window.onresize = function() {
             if (thumbList && productHeroImage) {
 
-                for(let i=0; i < thumbFrame.length ; i++) {
-                    thumbFrame[i].style.height = (productHeroImage.offsetHeight/4) + "px";
-                    thumbFrame[i].style.width = (productHeroImage.offsetHeight/4)+ "px";
+                for (let i = 0; i < thumbFrame.length; i++) {
+                    thumbFrame[i].style.height = (productHeroImage.offsetHeight / 4) + "px";
+                    thumbFrame[i].style.width = (productHeroImage.offsetHeight / 4) + "px";
                 }
 
                 if (screen.width > 720) {
-                    thumbList.style.width = (productHeroImage.offsetHeight/4) + "px";
-                    thumbList.style.minWidth = (productHeroImage.offsetHeight/4) + "px";
+                    thumbList.style.width = (productHeroImage.offsetHeight / 4) + "px";
+                    thumbList.style.minWidth = (productHeroImage.offsetHeight / 4) + "px";
                     thumbList.style.height = productHeroImage.offsetHeight + "px";
                 }
             }
-
-            window.onresize = function() {
-                if (thumbList && productHeroImage) {
-
-                    for(let i=0; i < thumbFrame.length; i++) {
-                        thumbFrame[i].style.height = (productHeroImage.offsetHeight/4) + "px";
-                        thumbFrame[i].style.width = (productHeroImage.offsetHeight/4)+ "px";
-                    }
-
-                    if (screen.width > 720) {
-                        thumbList.style.width = (productHeroImage.offsetHeight/4) + "px";
-                        thumbList.style.minWidth = (productHeroImage.offsetHeight/4) + "px";
-                        thumbList.style.height = productHeroImage.offsetHeight + "px";
-                    }
-                }
-            }
-        };
-    </script>
+        }
+    };
+</script>
 @endpush
