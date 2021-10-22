@@ -1,22 +1,22 @@
 @extends('techkken::layouts.content')
 
 @section('page_title')
-    {{ __('admin::app.sales.orders.title') }}
+    {{ __('techkken::app.techkken.cashier.title') }}
 @stop
 
 @section('content')
     <div class="content">
         <div class="page-header">
             <div class="page-title">
-                <h1>{{ __('admin::app.sales.orders.title') }}</h1>
+                <h1>{{ __('techkken::app.techkken.cashier.title') }}</h1>
             </div>
 
             <div class="page-action">
                 <div class="export-import" @click="showModal('downloadDataGrid')">
-                    <!-- <i class="export-icon"></i>
+                    <i class="export-icon"></i>
                     <span>
                         {{ __('admin::app.export.export') }}
-                    </span> -->
+                    </span>
                 </div>
             </div>
         </div>

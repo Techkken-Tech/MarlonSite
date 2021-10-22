@@ -38,14 +38,14 @@
             {!! view_render_event('bagisto.admin.layout.nav-top.after') !!}
 
 
-            <!-- {!! view_render_event('bagisto.admin.layout.nav-left.before') !!}
+            {!! view_render_event('bagisto.admin.layout.nav-left.before') !!}
 
             @include ('admin::layouts.nav-left')
 
-            {!! view_render_event('bagisto.admin.layout.nav-left.after') !!} -->
+            {!! view_render_event('bagisto.admin.layout.nav-left.after') !!}
 
 
-            <div style="padding-left: 15px; padding-right:15px; padding-top: 100px">
+            <div class="content-container">
 
                 {!! view_render_event('bagisto.admin.layout.content.before') !!}
 
