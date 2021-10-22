@@ -1,4 +1,4 @@
-@extends('admin::layouts.content')
+@extends('techkken::layouts.content')
 
 @section('page_title')
     {{ __('admin::app.sales.orders.title') }}
@@ -13,10 +13,10 @@
 
             <div class="page-action">
                 <div class="export-import" @click="showModal('downloadDataGrid')">
-                    <i class="export-icon"></i>
+                    <!-- <i class="export-icon"></i>
                     <span>
                         {{ __('admin::app.export.export') }}
-                    </span>
+                    </span> -->
                 </div>
             </div>
         </div>
