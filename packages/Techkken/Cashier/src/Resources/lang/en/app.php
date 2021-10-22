@@ -2,6 +2,9 @@
 
 return [
     'techkken' => [
-        'name' => 'Valir Flame'
+        'name' => 'Valir Flame',
+        'cashier' => [
+            'title' => 'Orders'
+        ]
     ]
 ];

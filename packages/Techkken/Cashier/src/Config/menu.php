@@ -2,10 +2,10 @@
 
 return [
     [
-        'key' => 'helloworld',
-        'name' => 'Hello World',
-        'route' => 'helloworld.index',
-        'sort' => 9,
-        'icon-class' => 'dashboard-icon',
+        'key' => 'cashier',
+        'name' => 'Cashier',
+        'route' => 'cashier.index',
+        'sort' => 3,
+        'icon-class' => 'sales-icon',
     ]
 ];
