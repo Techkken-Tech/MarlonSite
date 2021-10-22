@@ -36,5 +36,5 @@
 @stop
 
 @push('scripts')
-    @include('admin::export.export', ['gridName' => app('Webkul\Admin\DataGrids\OrderDataGrid')])
+    @include('techkken::export.export', ['gridName' => app('Techkken\Cashier\DataGrids\OrderDataGrid')])
 @endpush
