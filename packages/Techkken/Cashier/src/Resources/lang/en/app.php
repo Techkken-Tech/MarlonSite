@@ -8,6 +8,9 @@ return [
         ],
         'datagrid' => [
             'view' => 'View',
+        ],
+        'acl' => [
+            'name' => 'Cashier'
         ]
     ]
 ];
