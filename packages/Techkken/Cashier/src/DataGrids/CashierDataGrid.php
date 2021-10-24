@@ -159,7 +159,7 @@ class CashierDataGrid extends DataGrid
     public function prepareActions()
     {
         $this->addAction([
-            'title'  => trans('techkken::app.datagrid.view'),
+            'title'  => trans('techkken::app.techkken.datagrid.view'),
             'method' => 'GET',
             'route'  => 'cashier.view',
             'icon'   => 'icon eye-icon',

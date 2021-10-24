@@ -10,7 +10,8 @@ return [
             'view' => 'View',
         ],
         'acl' => [
-            'name' => 'Cashier'
+            'name' => 'Cashier',
+            'view' => 'View',
         ]
     ]
 ];

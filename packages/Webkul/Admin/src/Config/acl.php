@@ -770,5 +770,10 @@ return [
         'name'  => 'techkken::app.techkken.acl.name',
         'route' => 'cashier.index',
         'sort'  => 10,
-    ]
+    ], [
+        'key'   => 'cashier.view',
+        'name'  => 'techkken::app.techkken.acl.view',
+        'route' => 'cashier.view',
+        'sort'  => 1,
+    ],
 ];
