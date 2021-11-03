@@ -4,5 +4,5 @@
     </section>
 @endif
 <script>
-    this.$refs.mainbanner.changeIndexRight();
+    console.log(window.eventBus.$refs.mainbanner);
 </script>
