@@ -285,7 +285,7 @@ return [
 
         //Techkken packages
         Techkken\Cashier\Providers\CashierServiceProvider::class,
-        Techkken\Shop\Providers\ShopServiceProvider::class,
+        //Techkken\Shop\Providers\ShopServiceProvider::class,
     ],
 
     /*

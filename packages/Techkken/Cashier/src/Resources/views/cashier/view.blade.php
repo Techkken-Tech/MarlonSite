@@ -14,8 +14,7 @@
             <h1>
                 {!! view_render_event('sales.order.title.before', ['order' => $order]) !!}
 
-                <i class="icon angle-left-icon back-link"
-                    onclick="window.location = '{{ route('cashier.index') }}'"></i>
+                <i class="icon angle-left-icon back-link" onclick="window.location = '{{ route('cashier.index') }}'"></i>
 
                 {{ __('techkken::app.techkken.sales.orders.view-title', ['order_id' => $order->increment_id]) }}
 
@@ -27,8 +26,7 @@
             {!! view_render_event('sales.order.page_action.before', ['order' => $order]) !!}
 
             @if ($order->canCancel() && bouncer()->hasPermission('sales.orders.cancel'))
-            <a href="{{ route('admin.sales.orders.cancel', $order->id) }}" class="btn btn-lg btn-primary"
-                v-alert:message="'{{ __('admin::app.sales.orders.cancel-confirm-msg') }}'">
+            <a href="{{ route('admin.sales.orders.cancel', $order->id) }}" class="btn btn-lg btn-primary" v-alert:message="'{{ __('admin::app.sales.orders.cancel-confirm-msg') }}'">
                 {{ __('admin::app.sales.orders.cancel-btn-title') }}
             </a>
             @endif
@@ -51,8 +49,7 @@
             </a>
             @endif
 
-            <button id="btn-print-receipt-s" onclick="GeneratePDF()" class="btn btn-lg btn-primary"
-                v-alert:message="'{{ __('admin::app.sales.orders.cancel-confirm-msg') }}'">
+            <button id="btn-print-receipt-s" onclick="GeneratePDF()" class="btn btn-lg btn-primary">
                 Print
             </button>
 
@@ -377,24 +374,20 @@
 
                             <div class="summary-comment-container">
                                 <div class="comment-container">
-                                    <form action="{{ route('admin.sales.orders.comment', $order->id) }}" method="post"
-                                        @submit.prevent="onSubmit">
+                                    <form action="{{ route('admin.sales.orders.comment', $order->id) }}" method="post" @submit.prevent="onSubmit">
                                         @csrf()
 
                                         <div class="control-group" :class="[errors.has('comment') ? 'has-error' : '']">
                                             <label for="comment" class="required">{{
                                                 __('admin::app.sales.orders.comment') }}</label>
-                                            <textarea v-validate="'required'" class="control" id="comment"
-                                                name="comment"
-                                                data-vv-as="&quot;{{ __('admin::app.sales.orders.comment') }}&quot;"></textarea>
+                                            <textarea v-validate="'required'" class="control" id="comment" name="comment" data-vv-as="&quot;{{ __('admin::app.sales.orders.comment') }}&quot;"></textarea>
                                             <span class="control-error" v-if="errors.has('comment')">@{{
                                                 errors.first('comment') }}</span>
                                         </div>
 
                                         <div class="control-group">
                                             <span class="checkbox">
-                                                <input type="checkbox" name="customer_notified" id="customer-notified"
-                                                    name="checkbox[]">
+                                                <input type="checkbox" name="customer_notified" id="customer-notified" name="checkbox[]">
                                                 <label class="checkbox-view" for="customer-notified"></label>
                                                 {{ __('admin::app.sales.orders.notify-customer') }}
                                             </span>
@@ -685,52 +678,73 @@
 <script type="text/javascript">
     window.jsPDF = window.jspdf.jsPDF;
 
-        function GeneratePDF() {
-            var doc = new jsPDF('p', 'mm', [48, 100]);
+    function GeneratePDF() {
+        var doc = new jsPDF('p', 'mm', [48, 100]);
 
-            // Build PDF here...
-            console.log(doc.getFontList());
-            doc.setFont('helvetica');
-            doc.setFontSize(8);
-            doc.text("Marlon's Pansitan", 24, 4, 'center');
-            doc.setFontSize(6);
-            doc.text("Thank you for your purchase!", 24, 7, 'center');
-            doc.text("Tel No: (02) 8888-8888", 24, 10, 'center');
+        // Build PDF here...
+        console.log(doc.getFontList());
+        doc.setFont('helvetica');
+        doc.setFontSize(8);
 
-            //doc.text("***************************************************", 24, 10, 'center');
-            doc.text("Order #: 0005325", 0, 16);
-            doc.text("Date: 10/28/2021", 0, 19);
-            doc.text("Time: 11:25:00 PM", 0, 22);
-            doc.text("Customer: John Doe", 0, 25);
-            doc.text("Delivery Type: Cash On-Delivery", 0, 28);
+        doc.text("{{ $order->channel_name }}".replace('&#039;', '\''), 24, 4, 'center');
+        doc.setFontSize(6);
+        doc.text("Thank you for your purchase!", 24, 7, 'center');
+        doc.text("Tel No: (02) 8888-8888", 24, 10, 'center');
 
-            doc.line(0, 30, 48, 30);
+        //doc.text("***************************************************", 24, 10, 'center');
+        doc.text("Order #: {{ $order->id }}", 0, 16);
+        doc.text("Date: {{ date_format($order->created_at, 'm/d/Y') }}", 0, 19);
+        doc.text("Time: {{ date_format($order->created_at, 'H:i A') }}", 0, 22);
+        doc.text("Customer: {{ $order->customer_full_name }}", 0, 25);
+        doc.text("Payment: {{ core()->getConfigData('sales.paymentmethods.' . $order->payment->method . '.title') }}", 0, 28);
 
-            // ORDER LIST
-            doc.text("x1", 0, 33);
-            doc.text("Sinigang", 4, 33);
-            doc.text("P500.00", 40, 33);
+        doc.line(0, 30, 48, 30);
 
-            doc.text("Sub-Total: ", 25, 38);
-            doc.text("P500.00", 40, 38);
-
-            doc.text("Delivery Fee: ", 25, 41);
-            doc.text("P20.00", 40, 41);
-
-            doc.text("Grand Total: ", 25, 44);
-            doc.text("P520.00", 40, 44);
-
-
-            doc.line(0, 46, 48, 46);
-            doc.text("Cashier: Jane Doe", 0, 49);
-            doc.text("Receipt Valid Until 10/27/2022", 0, 52);
-
-
-
-
-            //doc.save("OR_" + or_num + ".pdf");
-            doc.autoPrint();
-            doc.output("dataurlnewwindow");
+        // ORDER LIST
+        <?php
+        $serverY = 33;
+        foreach ($order->items as $item) {
+            echo @'
+                doc.text("x' . $item->qty_ordered . '", 0, '.$serverY.');
+                doc.text("' . $item->name . '", 4, '.$serverY.');
+                doc.text("P' . number_format($item->base_total, 2) . '", 38, '.$serverY.');
+                ';
+            $serverY += 3;
         }
+        ?>
+
+        var clientY = <?php echo $serverY ?>;
+
+        clientY = clientY + 3;
+        doc.text("Sub-Total: ", 23, clientY);
+        doc.text("P", 36, clientY);
+        doc.text("{{ number_format($order->base_sub_total, 2) }}", 48, clientY, 'right');
+
+        clientY = clientY + 3;
+        doc.text("Delivery Fee: ", 23, clientY);
+        doc.text("P", 36, clientY);
+        doc.text("{{ number_format($order->base_shipping_amount, 2) }}", 48, clientY, 'right');
+
+        clientY = clientY + 3;
+        doc.text("Tax Fee: ", 23, clientY);
+        doc.text("P", 36, clientY);
+        doc.text("{{ number_format($order->base_tax_amount, 2) }}", 48, clientY, 'right');
+
+        clientY = clientY + 3;
+        doc.text("Grand Total: ", 23, clientY);
+        doc.text("P", 36, clientY);
+        doc.text("{{ number_format($order->base_grand_total_invoiced, 2) }}", 48, clientY, 'right');
+
+        clientY = clientY + 2;
+        doc.line(0, clientY, 48, clientY);
+        clientY = clientY + 3;
+        doc.text("Cashier: Example Cashier Name", 0, clientY);
+        clientY = clientY + 3;
+        doc.text("Receipt Valid Until <?php echo Carbon\Carbon::now()->addYear(); ?>", 0, clientY);
+
+        //doc.save("OR_" + or_num + ".pdf");
+        doc.autoPrint();
+        doc.output("dataurlnewwindow");
+    }
 </script>
 @stop
