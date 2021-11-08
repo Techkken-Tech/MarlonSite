@@ -838,3 +838,17 @@ div#search-responsive {
     background-color: var(--accent);
     color: white;
   }
+
+  #app .alert-wrapper{
+    z-index: 2000;
+}
+#app .checkout-process .col-main ul.checkout-steps li.active {
+    color: var(--accent);
+}
+.checkout-process .col-main ul.checkout-steps li.active div.decorator {
+    border: 1px solid var(--accent);
+}
+.checkout-process .col-main ul.checkout-steps li.completed div.decorator{
+    background-image: url(../images/checkout/complete.png);
+    background-size: cover;
+}
