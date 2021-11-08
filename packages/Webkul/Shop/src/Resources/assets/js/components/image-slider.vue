@@ -23,6 +23,7 @@
         direction: ltr;
     }
 
+
     .slide-enter-active {
         transition: all 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53);
     }
@@ -92,6 +93,8 @@ export default {
             } else {
                 this.images_loaded = true;
             }
+            var _component = this;
+            setInterval(function(){ _component.changeIndexRight(); }, 10000);
         },
 
         changeIndexLeft: function() {
