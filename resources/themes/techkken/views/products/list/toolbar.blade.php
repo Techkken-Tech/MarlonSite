@@ -2,7 +2,7 @@
 
 {!! view_render_event('bagisto.shop.products.list.toolbar.before') !!}
 
-<div class="top-toolbar mb-35">
+<div class="top-toolbar">
 
     <div class="page-info">
         <span>
