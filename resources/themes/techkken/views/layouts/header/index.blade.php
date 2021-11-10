@@ -193,11 +193,11 @@
             <span class="menu-box" ><span class="icon icon-menu" id="hammenu"></span>
         </div>
     </div>
-    <div class="search-responsive" id="search-responsive">
+    <div class="search-responsive animate__animated animate__fadeIn" id="search-responsive">
         <form role="search" action="{{ route('shop.search.index') }}" method="GET" style="display: inherit;">
             <div class="search-content">
                 <image-search-component></image-search-component>
-                <input type="search" name="term" class="search">
+                <input type="search" name="term" class="search" placeholder="{{ __('Enter keywords')}}">
             </div>
         </form>
     </div>
