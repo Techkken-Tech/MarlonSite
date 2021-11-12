@@ -6,12 +6,16 @@
     <div class="dropdown-toggle">
         <a class="cart-link" href="{{ route('shop.checkout.cart.index') }}">
             <span class="icon cart-icon"></span>
+            @if($cart->items->count())
+                <span class="count"> {{ $cart->items->count() }}</span>
+            @endif
+
         </a>
 
-        <span class="name">
-            {{ __('shop::app.header.cart') }}
-            <span class="count"> ({{ $cart->items->count() }})</span>
-        </span>
+
+  
+          
+       
 
         <i class="icon arrow-down-icon"></i>
     </div>

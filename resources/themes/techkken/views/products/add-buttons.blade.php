@@ -5,7 +5,6 @@
 
     $showWishlist = core()->getConfigData('general.content.shop.wishlist_option') == "1" ? true : false;
 @endphp
-
 <div class="{{ $toolbarHelper->isModeActive('grid') ? 'cart-wish-wrap' : 'default-wrap' }}">
     <form action="{{ route('cart.add', $product->product_id) }}" method="POST">
         @csrf

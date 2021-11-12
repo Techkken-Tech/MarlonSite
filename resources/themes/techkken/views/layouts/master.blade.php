@@ -71,9 +71,10 @@
                 {!! view_render_event('bagisto.shop.layout.content.after') !!}
 
             </main>
+            @include("shop::blocks.newsletter")
 
         </div>
-
+      
         {!! view_render_event('bagisto.shop.layout.footer.before') !!}
 
         @include('shop::layouts.footer.footer')
@@ -119,7 +120,7 @@
 
     <script type="text/javascript" src="{{ bagisto_asset('js/shop.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/webkul/ui/assets/js/ui.js') }}"></script>
-
+    <script type="text/javascript" src="{{ bagisto_asset('js/techkken.js') }}"></script>
     @stack('scripts')
 
     {!! view_render_event('bagisto.shop.layout.body.after') !!}

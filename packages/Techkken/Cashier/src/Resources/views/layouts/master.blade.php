@@ -20,7 +20,7 @@
 
         @yield('css')
 
-        {!! view_render_event('bagisto.admin.layout.head') !!}
+        {!! view_render_event('techkken.admin.layout.head') !!}
 
     </head>
 

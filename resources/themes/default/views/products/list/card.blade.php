@@ -1,7 +1,6 @@
 {!! view_render_event('bagisto.shop.products.list.card.before', ['product' => $product]) !!}
 
 <div class="product-card">
-
     <?php $productBaseImage = productimage()->getProductBaseImage($product); ?>
 
     @if ($product->new)
@@ -9,7 +8,6 @@
             {{ __('shop::app.products.new') }}
         </div>
     @endif
-
     <div class="product-image">
         <a href="{{ route('shop.productOrCategory.index', $product->url_key) }}" title="{{ $product->name }}">
             <img src="{{ $productBaseImage['medium_image_url'] }}" onerror="this.src='{{ asset('vendor/webkul/ui/assets/images/product/meduim-product-placeholder.png') }}'" alt="" height="500"/>

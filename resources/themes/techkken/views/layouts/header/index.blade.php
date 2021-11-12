@@ -91,10 +91,15 @@
                 
 
                 {!! view_render_event('bagisto.shop.layout.header.currency-item.after') !!}
+                <li class="search-container">
+
+                <span  class="search-box"><span class="icon icon-search" id="search"></span></span>
+
+                </li>
 
 
                 {!! view_render_event('bagisto.shop.layout.header.cart-item.before') !!}
-
+                
                 <li class="cart-dropdown-container">
 
                     @include('shop::checkout.cart.mini-cart')
@@ -188,17 +193,11 @@
             <span class="menu-box" ><span class="icon icon-menu" id="hammenu"></span>
         </div>
     </div>
-    <div class="search-responsive mt-10" id="search-responsive">
+    <div class="search-responsive animate__animated animate__fadeIn" id="search-responsive">
         <form role="search" action="{{ route('shop.search.index') }}" method="GET" style="display: inherit;">
             <div class="search-content">
-                <button style="background: none; border: none; padding: 0px;">
-                    <i class="icon icon-search"></i>
-                </button>
-
                 <image-search-component></image-search-component>
-
-                <input type="search" name="term" class="search">
-                <i class="icon icon-menu-back right"></i>
+                <input type="search" name="term" class="search" placeholder="{{ __('Enter keywords')}}">
             </div>
         </form>
     </div>

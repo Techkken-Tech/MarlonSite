@@ -18,8 +18,6 @@
 
     <product-gallery></product-gallery>
 
-    @include ('shop::products.view.product-add')
-
 </div>
 
 {!! view_render_event('bagisto.shop.products.view.gallery.after', ['product' => $product]) !!}

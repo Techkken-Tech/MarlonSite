@@ -20,8 +20,8 @@ class CashierServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'techkken');
 
-        Event::listen('techkken', function ($viewRenderEventManager) {
-            $viewRenderEventManager->addTemplate('techkken::cashier.layouts.style');
+        Event::listen('techkken.admin.layout.head', function ($viewRenderEventManager) {
+            $viewRenderEventManager->addTemplate('techkken::layouts.style');
         });
     }
 

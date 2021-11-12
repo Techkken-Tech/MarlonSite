@@ -755,5 +755,25 @@ return [
         'name'  => 'admin::app.acl.configure',
         'route' => 'admin.configuration.index',
         'sort'  => 9,
-    ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cashier
+    |--------------------------------------------------------------------------
+    |
+    | All ACLs related to cashier will be placed here.
+    |
+    */
+    [
+        'key'   => 'cashier',
+        'name'  => 'techkken::app.techkken.acl.name',
+        'route' => 'cashier.index',
+        'sort'  => 10,
+    ], [
+        'key'   => 'cashier.view',
+        'name'  => 'techkken::app.techkken.acl.view',
+        'route' => 'cashier.view',
+        'sort'  => 1,
+    ],
 ];

@@ -3,12 +3,8 @@
 {!! view_render_event('bagisto.shop.products.view.reviews.after', ['product' => $product]) !!}
 
 @if ($total = $reviewHelper->getTotalReviews($product))
-    <div class="rating-reviews">
-        <div class="rating-header">
-            {{ __('shop::app.products.reviews-title') }}
-        </div>
-
-        <div class="overall">
+    <div class="rating-reviews tk-row">
+        <div class="overall col-md-6">
             <div class="review-info">
 
                 <span class="number">
@@ -41,7 +37,7 @@
 
         </div>
 
-        <div class="reviews">
+        <div class="reviews col-md-6">
 
             @foreach ($reviewHelper->getReviews($product)->paginate(10) as $review)
                 <div class="review">
@@ -85,8 +81,8 @@
     </div>
 @else
     @if (core()->getConfigData('catalog.products.review.guest_review') || auth()->guard('customer')->check())
-        <div class="rating-reviews">
-            <div class="rating-header">
+        <div class="rating-reviews tk-row">
+            <div class="rating-header col-md-12">
                 <a href="{{ route('shop.reviews.create', $product->url_key) }}" class="btn btn-lg btn-primary">
                     {{ __('shop::app.products.write-review-btn') }}
                 </a>

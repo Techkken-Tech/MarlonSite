@@ -1,40 +1,16 @@
 @extends('techkken::layouts.content')
 
 @section('page_title')
-    {{ __('techkken::app.techkken.cashier.title') }}
+{{ __('techkken::app.techkken.cashier.title') }}
 @stop
 
 @section('content')
-    <div class="content">
-        <div class="page-header">
-            <div class="page-title">
-                <h1>{{ __('techkken::app.techkken.cashier.title') }}</h1>
-            </div>
-
-            <div class="page-action">
-                <div class="export-import" @click="showModal('downloadDataGrid')">
-                    <i class="export-icon"></i>
-                    <span>
-                        {{ __('admin::app.export.export') }}
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="page-content">
-            <datagrid-plus src="{{ route('admin.sales.orders.index') }}"></datagrid-plus>
+<section class="cashier-orders">
+    <h3 class="cashier-title" style="margin: 5px 10px 5px 20px;">Cashier</h3>
+    <div class="cashier-order-list" style="margin-top: 20px;">
+        <div class="cashier-row-card" style="border: 2px solid #000000;">
+            <p>This is the first CARD</p>
         </div>
     </div>
-
-    <modal id="downloadDataGrid" :is-open="modalIds.downloadDataGrid">
-        <h3 slot="header">{{ __('admin::app.export.download') }}</h3>
-        <div slot="body">
-            <export-form></export-form>
-        </div>
-    </modal>
-
+</section>
 @stop
-
-@push('scripts')
-    @include('admin::export.export', ['gridName' => app('Webkul\Admin\DataGrids\OrderDataGrid')])
-@endpush
