@@ -1,2 +1,1 @@
-<link rel="stylesheet" href="{{ asset('css/techkken-cashier.css') }}">
-(In style.blade.php)
+<link rel="stylesheet" href="{{ bagisto_asset('css/techkken-cashier.css') }}">

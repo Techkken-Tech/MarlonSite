@@ -738,7 +738,7 @@
         clientY = clientY + 2;
         doc.line(0, clientY, 48, clientY);
         clientY = clientY + 3;
-        doc.text("Cashier: Example Cashier Name", 0, clientY);
+        doc.text("Cashier: {{ auth()->guard('admin')->user()->name }}", 0, clientY);
         clientY = clientY + 3;
         doc.text("Receipt Valid Until <?php echo Carbon\Carbon::now()->addYear(); ?>", 0, clientY);
 

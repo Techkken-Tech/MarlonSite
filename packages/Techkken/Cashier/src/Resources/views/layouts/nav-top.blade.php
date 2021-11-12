@@ -16,7 +16,7 @@
             <span class="avatar">
             </span>
 
-            <div class="profile-info">
+            <div class="profile-info" style="display:none">
                 @php
                     $allLocales = core()->getAllLocales()->pluck('name', 'code');
 
