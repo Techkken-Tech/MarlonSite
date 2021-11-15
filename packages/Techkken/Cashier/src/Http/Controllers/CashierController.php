@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Techkken\Cashier\DataGrids\CashierDataGrid;
 use Webkul\Admin\DataGrids\OrderDataGrid;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Sales\Models\Order;
 use Webkul\Sales\Repositories\OrderRepository;
 use \Webkul\Sales\Repositories\OrderCommentRepository;
 
@@ -60,11 +61,9 @@ class CashierController extends Controller
      */
     public function index()
     {
-        if (request()->ajax()) {
-            return app(CashierDataGrid::class)->toJson();
-        }
+        $orders = Order::paginate(25);
 
-        return view($this->_config['view']);
+        return view($this->_config['view'])->with(['orders' => $orders]);
     }
 
     /**
