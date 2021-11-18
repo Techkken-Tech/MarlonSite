@@ -69,198 +69,34 @@
     <!-- Modal content -->
     <div class="cashier-modal-content">
         <span class="cashier-close" onclick="closeOrder()">&times;</span>
-        <h2>Order #<span id="data-order_no">1</span></h2>
-
         <!-- Order Details -->
-        <div class="sale-container">
-            <accordian :title="'{{ __('admin::app.sales.orders.order-and-account') }}'" :active="true">
-                <div slot="body">
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.order-info') }}</span>
-                        </div>
-
-                        <div class="section-content">
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.order-date') }}
-                                </span>
-
-                                <span id="data-order_date" class="value">
-                                </span>
-                            </div>
-
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.order-status') }}
-                                </span>
-
-                                <span id="data-order_status" class="value">
-                                </span>
-                            </div>
-
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.channel') }}
-                                </span>
-
-                                <span id="data-order_channel_name" class="value">
-                                </span>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.account-info') }}</span>
-                        </div>
-
-                        <div class="section-content">
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.customer-name') }}
-                                </span>
-
-                                <span id="data-customer_full_name" class="value">
-                                </span>
-                            </div>
-
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.email') }}
-                                </span>
-
-                                <span id="data-customer_email" class="value">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </accordian>
-
-            <accordian :title="'{{ __('admin::app.sales.orders.address') }}'" :active="true">
-                <div slot="body">
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.billing-address') }}</span>
-                        </div>
-
-                        <div id="data-billing_address" class="section-content">
-                        </div>
-                    </div>
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.shipping-address') }}</span>
-                        </div>
-
-                        <div id="data-shipping_address" class="section-content">
-                        </div>
-                    </div>
-
-                </div>
-            </accordian>
-
-            <accordian :title="'{{ __('admin::app.sales.orders.payment-and-shipping') }}'" :active="true">
-                <div slot="body">
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.payment-info') }}</span>
-                        </div>
-
-                        <div class="section-content">
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.payment-method') }}
-                                </span>
-
-                                <span id="data-payment_method" class="value">
-                                </span>
-                            </div>
-
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.currency') }}
-                                </span>
-
-                                <span id="data-order_currency" class="value">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="sale-section">
-                        <div class="secton-title">
-                            <span>{{ __('admin::app.sales.orders.shipping-info') }}</span>
-                        </div>
-
-                        <div class="section-content">
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.shipping-method') }}
-                                </span>
-
-                                <span id="data-shipping_method" class="value">
-                                </span>
-                            </div>
-
-                            <div class="row">
-                                <span class="title">
-                                    {{ __('admin::app.sales.orders.shipping-price') }}
-                                </span>
-
-                                <span id="data-shipping_price" class="value">
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </accordian>
-
-            <accordian :title="'{{ __('admin::app.sales.orders.products-ordered') }}'" :active="true">
-                <div slot="body">
-
-                    <div class="table">
-                        <table id="data-table_items">
-                            <thead>
-                                <tr>
-                                    <th>{{ __('admin::app.sales.orders.SKU') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.product-name') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.price') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.item-status') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.subtotal') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.tax-percent') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.tax-amount') }}</th>
-                                    <th>{{ __('admin::app.sales.orders.grand-total') }}</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </accordian>
-        </div>
         <!-- Modal Footer -->
+        <h2>Order #<span id="data-order_no">1</span></h2>
         <div class="cashier-modal-footer">
-            <button id="bCancel" type="button" class="btn btn-lg btn-primary"
-                style="background-color: orange;">Cancel</button>
-            <button id="bRefund" type="button" class="btn btn-lg btn-primary"
-                style="background-color: orange;">Refund</button>
-            <button id="bInvoice" type="button" class="btn btn-lg btn-primary" style="background-color: orange;"
-                onclick="InvoiceOrder('{{ url('admin/sales/invoices/create/') }}');">Invoice</button>
-            <button id="bDeliver" type="button" class="btn btn-lg btn-primary"
-                style="background-color: orange;">Deliver</button>
-            <button id="bPrint" type="button" class="btn btn-lg btn-primary"
-                style="background-color: green;">Print</button>
+            <button type="submit" class="btn btn-lg btn-primary" style="background-color: orange;">Cancel</button>
+            <a href="http://localhost:8080/admin/sales/invoices/print/{{$order->invoices[0]->id}}" ><button type="submit" class="btn btn-lg btn-primary" style="background-color: green;">Print</button></a>
         </div>
+        <p><span>Date:</span><span>{{ date("m/d/Y",strtotime($order->created_at))}}</span></p>
+        <p><span>Time:</span><span>{{ date("H:i:A",strtotime($order->created_at))}}</span></p>
+        <p><span>Customer:</span><span>{{$order->customer_full_name}}</span></p>
+        <p><span>Payment Method:</span><span>{{ core()->getConfigData('sales.paymentmethods.' . $order->payment->method . '.title')}}</span></p>
+        <hr>
+        <p>Ordered Items:</p>
+        <ul>
+        @foreach($order->items as $item)
+        <li>
+            <str>x&nbsp;</span><span>{{$item->qty_ordered}}</span>
+            <span>{{$item->name}}</span>
+            <span>&nbsp;{{number_format($item->base_total,2)}}</span> 
+        </li>
+        
+
+        @endforeach
+        </ul>
+        <hr>
+        <p><span>Subtotal:</span><span>{{number_format($order->base_sub_total,2)}}</span></p>
+        <p><span>Delivery Fee:</span><span>{{number_format($order->base_shipping_amount,2)}}</span></p>
+        <p><span>Grand Total:</span><span>{{number_format($order->base_grand_total_invoiced,2)}}</span></p>
     </div>
 
 </div>
