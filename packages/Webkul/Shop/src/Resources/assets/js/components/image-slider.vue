@@ -95,6 +95,7 @@ export default {
             }
             var _component = this;
             setInterval(function(){ _component.changeIndexRight(); }, 10000);
+            
         },
 
         changeIndexLeft: function() {
