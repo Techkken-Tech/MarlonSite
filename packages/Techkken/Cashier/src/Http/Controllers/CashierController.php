@@ -2,6 +2,9 @@
 
 namespace Techkken\Cashier\Http\Controllers;
 
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Techkken\Cashier\DataGrids\CashierDataGrid;
 use Webkul\Admin\DataGrids\OrderDataGrid;
@@ -43,8 +46,7 @@ class CashierController extends Controller
     public function __construct(
         OrderRepository $orderRepository,
         OrderCommentRepository $orderCommentRepository
-    )
-    {
+    ) {
         $this->middleware('admin');
 
         $this->_config = request('_config');
@@ -59,11 +61,46 @@ class CashierController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::paginate(25);
+        try {
+            $qry = Order::query();
 
-        return view($this->_config['view'])->with(['orders' => $orders]);
+            if ($request->has('order_number') && $request->order_number != '')
+                $qry->where('id', $request->order_number);
+
+            if ($request->has('search_keyword') && $request->search_keyword != '') {
+                $qry->where(function ($sub_qry) use ($request) {
+                    $sub_qry->Where('customer_first_name', 'LIKE', (string) $request->search_keyword . '%');
+                    $sub_qry->orWhere('customer_last_name', 'LIKE', (string) $request->search_keyword . '%');
+                    $sub_qry->orWhere('customer_company_name', 'LIKE', (string) $request->search_keyword . '%');
+                });
+            }
+
+            if ($request->has('status') && $request->status != 'None') {
+                $qry->where('status', strtolower($request->status));
+            }
+            else {
+                $qry->where('status', 'pending');
+            }
+
+            if ($request->has('date_start') && $request->has('date_end') && $request->date_start != '' && $request->date_end != '') {
+                $ds = Carbon::createFromFormat('Y-m-d', $request->date_start);
+                $de = Carbon::createFromFormat('Y-m-d', $request->date_end);
+
+                $qry->WhereBetween('created_at', [$ds->startOfDay(), $de->endOfDay()]);
+            }
+
+            //Execute the select query built by refactoring
+            $page_count = 25;
+            $qry_res = $qry->orderBy('id', 'desc')
+                ->paginate($page_count);
+
+            return view($this->_config['view'])->with(['orders' => $qry_res]);
+        } catch (Exception $ex) {
+            //Log::error('reading softwares.', [$ex->getMessage()]);
+            return response()->json(['status' => $ex->getMessage()], 400);
+        }
     }
 
     /**
@@ -77,6 +114,21 @@ class CashierController extends Controller
         $order = $this->orderRepository->findOrFail($id);
 
         return view($this->_config['view'], compact('order'));
+    }
+
+    public function viewOrder($id)
+    {
+        $order = $this->orderRepository->findOrFail($id);
+
+        $addresses = $order->addresses;
+
+        $payment = $order->payment;
+
+        $items = $order->items;
+
+        $collection = collect($order, $addresses, $payment, $items);
+
+        return $collection;
     }
 
     /**

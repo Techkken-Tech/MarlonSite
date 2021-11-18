@@ -14,6 +14,7 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
             Route::get('/techkken-cashier-view/{id}', 'Techkken\Cashier\Http\Controllers\CashierController@view')->defaults('_config', [
                 'view' => 'techkken::cashier.view',
             ])->name('cashier.view');
+            Route::get('/techkken-cashier-viewOrder/{id}', 'Techkken\Cashier\Http\Controllers\CashierController@viewOrder')->name('cashier.viewOrder');
         });
     });
 });
