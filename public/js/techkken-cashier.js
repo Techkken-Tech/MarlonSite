@@ -1,3 +1,5 @@
+let order_result;
+
 function toggleNavBarLeft() {
     $(".navbar-left").toggle();
     if ($(".content-container").css('padding-left') == '90px')
@@ -19,6 +21,7 @@ function viewOrder(data_url) {
         type: "GET",
         success: function (result) {
             console.log(result);
+            order_result = result;
             console.log("GET Order Detail...");
 
             // Load Order Details in Modal
@@ -71,30 +74,19 @@ function viewOrder(data_url) {
             $('#data-shipping_method').text(result.shipping_price);
 
             result.items.forEach(element => {
-                let discount_row;
-                if (element.base_discount_amount > 0) discount_row = '<td id="d-base_discount_amount">' + element.base_discount_amount + '</td>';
                 var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
                 $('#data-table_items tbody').append(
-                    `
-                    <td id="d-sku">` + element.sku + `</td>
+                `<tr>
+                    <td id="d-qty_ordered">` + element.qty_ordered + `</td>
                     <td id="d-name">` + element.name + `</td>
-                    <td id="d-base_price">` + parseFloat(element.base_price).toFixed(2) + `</td>
-                    <td id="d-qty_ordered">Ordered (` + element.qty_ordered + `)</td>
-                    <td id="d-base_total">` + parseFloat(element.base_total).toFixed(2) + `</td>
-                    <td id="d-tax_percent">` + element.tax_percent + `</td>
-                    <td id="d-base_tax_amount">` + parseFloat(element.base_tax_amount).toFixed(2) + `</td>
-                    ` + discount_row + `
                     <td id="d-grand_total">` + grand_total.toFixed(2) + `</td>
-                `);
+                </tr>`);
             });
 
-            if (result.status == "pending") {
-                $('#bCancel').show();
-                $('#bRefund').hide();
-                $('#bInvoice').show();
-                $('#bDeliver').hide();
-                $('#bPrint').hide();
-            }
+            $('#data-sub_total').text(result.invoices[0].sub_total);
+            $('#data-delivery_fee').text(result.invoices[0].shipping_amount);
+            $('#data-grand_total').text(result.invoices[0].grand_total);
+
 
             // Show Modal
             $("#cashier-modal").show();
@@ -115,24 +107,3 @@ function closeOrder() {
 }
 
 
-function CancelOrder(data_url) {
-
-}
-
-
-function InvoiceOrder(data_url) {
-    console.log(data_url);
-
-    // Create an Invoice
-    $.ajax({
-        url: data_url,
-        type: "GET",
-        success: function (result) {
-
-
-        },
-        error: function (result) {
-            console.error(result.responseJSON.status);
-        }
-    });
-}
