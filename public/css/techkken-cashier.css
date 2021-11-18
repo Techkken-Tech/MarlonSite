@@ -1,0 +1,193 @@
+.cashier-orders {
+    margin-top: 2rem;
+    margin-left: 0.25rem;
+}
+
+.cashier-title {
+    color: darkblue;
+}
+
+.cashier-orders .cashier-order-list {
+    font-size: smaller;
+    margin-top: 1rem;
+}
+
+.cashier-orders .cashier-order-list .cashier-row-card {
+    display: flex;
+    padding: 0.25rem;
+    border: 1px solid #888888;
+    border-radius: 5px;
+    margin-top: 0.1rem;
+    box-shadow: 2px 1px 1px darkslategrey;
+}
+
+.cashier-left-border {
+    border-left: 4px solid orange;
+}
+
+.cashier-row-order-no {
+    flex-grow: 1;
+    align-self: center;
+}
+
+.cashier-order-no {
+    text-align: center;
+}
+
+.cashier-row-info {
+    flex-grow: 7;
+    margin-left: 2px;
+    font-size: x-small;
+}
+
+.cashier-row-total {
+    font-size: large;
+    flex-grow: 1;
+    align-self: center;
+}
+
+.cashier-row-action {
+    flex-grow: 1;
+    align-self: center;
+    text-align: center;
+}
+
+
+
+.cashier-text {
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    box-shadow: none;
+    border-width: 1px;
+}
+
+
+
+
+/* Style the form - display items horizontally */
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+/* Add some margins for each label */
+.form-inline label {
+    margin: 5px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 0.4rem 0.8rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Style the select fields */
+.form-inline select {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 0.4rem 0.8rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Style the submit button */
+.form-inline button {
+    padding: 0.4rem 0.8rem;
+    background-color: dodgerblue;
+    border: 1px solid #ddd;
+    color: white;
+    border-radius: 5px;
+}
+
+.form-inline button:hover {
+    background-color: royalblue;
+    cursor: pointer;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+    .form-inline input {
+        margin: 2px 0;
+    }
+
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.cashier-header a {
+    outline: 0;
+    border: none;
+}
+
+.bars-icon {
+    background-image: url("../themes/techkken/assets/images/icons/bars-solid.svg");
+    border: none;
+    width: 24px;
+    height: 24px;
+}
+
+.action-view {
+    cursor: pointer;
+}
+
+
+.cashier-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 9;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.cashier-modal-content {
+    background-color: #fefefe;
+    margin: 2% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* Modal Footer */
+.cashier-modal-footer {
+    padding: 2px 16px;
+    color: white;
+}
+
+/* The Close Button */
+.cashier-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cashier-close:hover,
+.cashier-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
