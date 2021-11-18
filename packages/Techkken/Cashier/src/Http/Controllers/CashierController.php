@@ -126,7 +126,9 @@ class CashierController extends Controller
 
         $items = $order->items;
 
-        $collection = collect($order, $addresses, $payment, $items);
+        $invoices = $order->invoices;
+
+        $collection = collect($order, $addresses, $payment, $items, $invoices);
 
         return $collection;
     }
