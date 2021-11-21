@@ -152,32 +152,32 @@
             var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
             doc.text("x" + element.qty_ordered, 0, serverY);
             doc.text(element.name, 4, serverY);
-            doc.text("P" + grand_total.toFixed(2), 38, serverY);
+            doc.text("P" + grand_total.toFixed(2), 36, serverY);
             serverY+=3;
         });
 
         var clientY = serverY
 
         clientY = clientY + 3;
-        doc.text("Sub-Total: ", 23, clientY);
-        doc.text("P", 36, clientY);
+        doc.text("Sub-Total: ", 13, clientY);
+        doc.text("P", 26, clientY);
 
-        doc.text(parseFloat(order_result.invoices[0].sub_total).toFixed(2), 48, clientY, 'right');
-
-        clientY = clientY + 3;
-        doc.text("Delivery Fee: ", 23, clientY);
-        doc.text("P", 36, clientY);
-        doc.text(parseFloat(order_result.shipping_amount).toFixed(2), 48, clientY, 'right');
+        doc.text(parseFloat(order_result.invoices[0].sub_total).toFixed(2), 42, clientY, 'right');
 
         clientY = clientY + 3;
-        doc.text("Tax Fee: ", 23, clientY);
-        doc.text("P", 36, clientY);
-        doc.text(parseFloat(order_result.tax_amount).toFixed(2), 48, clientY, 'right');
+        doc.text("Delivery Fee: ", 13, clientY);
+        doc.text("P", 26, clientY);
+        doc.text(parseFloat(order_result.shipping_amount).toFixed(2), 42, clientY, 'right');
 
         clientY = clientY + 3;
-        doc.text("Grand Total: ", 23, clientY);
-        doc.text("P", 36, clientY);
-        doc.text(parseFloat(order_result.grand_total).toFixed(2), 48, clientY, 'right');
+        doc.text("Tax Fee: ", 13, clientY);
+        doc.text("P", 26, clientY);
+        doc.text(parseFloat(order_result.tax_amount).toFixed(2), 42, clientY, 'right');
+
+        clientY = clientY + 3;
+        doc.text("Grand Total: ", 13, clientY);
+        doc.text("P", 26, clientY);
+        doc.text(parseFloat(order_result.grand_total).toFixed(2), 42, clientY, 'right');
 
         clientY = clientY + 2;
         doc.line(0, clientY, 48, clientY);
