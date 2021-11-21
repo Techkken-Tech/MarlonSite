@@ -51,10 +51,11 @@
                 </div>
             </div>
             <div class="cashier-row-total">
-                P10000
+               PHP. {{number_format($order->base_grand_total_invoiced,2)}}
             </div>
             <div class="cashier-row-action">
                 <div class="action-view" onclick="viewOrder('{{ route('cashier.viewOrder', [$order->id]) }}');"><span class="icon eye-icon"></span></div>
+                <a class="action-process" href="{{ route('cashier.processOrder', [$order->id]) }}"><span class="icon import-icon"></span></a>
             </div>
         </div>
         @endforeach

@@ -176,4 +176,14 @@ class CashierController extends Controller
 
         return redirect()->back();
     }
+
+    public  function ProcessOrder($id){
+        $order = $this->orderRepository->findOrFail($id);
+       $this->orderRepository->updateOrderStatus($order, 'processing');
+
+      
+        session()->flash('success', trans('Processing order:'.$id, ['name' => 'Order']));
+ 
+        return redirect()->back();
+    }
 }
