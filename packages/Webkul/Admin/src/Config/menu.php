@@ -170,6 +170,12 @@ return [
         'sort'       => 8,
         'icon-class' => '',
     ], [
+        'key'        => 'settings.delivery-rates',
+        'name'       => 'admin::app.layouts.delivery-rates',
+        'route'      => 'admin.delivery-rates.index',
+        'sort'       => 9,
+        'icon-class' => '',
+    ], [
         'key'        => 'settings.taxes.tax-categories',
         'name'       => 'admin::app.layouts.tax-categories',
         'route'      => 'admin.tax-categories.index',

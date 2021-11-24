@@ -14,6 +14,7 @@ class ModuleServiceProvider extends CoreModuleServiceProvider
         \Webkul\Core\Models\Currency::class,
         \Webkul\Core\Models\CurrencyExchangeRate::class,
         \Webkul\Core\Models\Locale::class,
+        \Webkul\Core\Models\DeliveryRate::class,
         \Webkul\Core\Models\Slider::class,
         \Webkul\Core\Models\SubscribersList::class,
     ];

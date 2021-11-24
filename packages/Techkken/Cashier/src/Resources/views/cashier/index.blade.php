@@ -111,19 +111,19 @@
     function GeneratePDF(order) {
         console.log(order_result);
 
-        var doc = new jsPDF('p', 'mm', [48, 100]);
+        var doc = new jsPDF('p', 'mm', [44, 100]);
 
         // Build PDF here...
         console.log(doc.getFontList());
         doc.setFont('helvetica');
         doc.setFontSize(8);
 
-        doc.text(order_result.channel_name, 24, 4, 'center');
+        doc.text(order_result.channel_name, 22, 4, 'center');
         doc.setFontSize(6);
-        doc.text("Thank you for your purchase!", 24, 7, 'center');
-        doc.text("Tel No: (02) 8888-8888", 24, 10, 'center');
+        doc.text("Thank you for your purchase!", 22, 7, 'center');
+        doc.text("Tel No: (02) 8888-8888", 22, 10, 'center');
 
-        //doc.text("***************************************************", 24, 10, 'center');
+        //doc.text("***************************************************", 22, 10, 'center');
         doc.text("Order #: " + order_result.id, 0, 16);
         var_date = new Date(order_result.created_at);
         doc.text("Date: " + var_date.toLocaleDateString(), 0, 19);
@@ -143,7 +143,7 @@
             }
         doc.text("Payment: " + method_name, 0, 28);
 
-        doc.line(0, 30, 48, 30);
+        doc.line(0, 30, 44, 30);
 
         // ORDER LIST
         var serverY = 33;
@@ -152,7 +152,7 @@
             var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
             doc.text("x" + element.qty_ordered, 0, serverY);
             doc.text(element.name, 4, serverY);
-            doc.text("P" + grand_total.toFixed(2), 36, serverY);
+            doc.text("P" + grand_total.toFixed(2), 43, serverY, 'right');
             serverY+=3;
         });
 
@@ -162,25 +162,25 @@
         doc.text("Sub-Total: ", 13, clientY);
         doc.text("P", 26, clientY);
 
-        doc.text(parseFloat(order_result.invoices[0].sub_total).toFixed(2), 42, clientY, 'right');
+        doc.text(parseFloat(order_result.invoices[0].sub_total).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 3;
         doc.text("Delivery Fee: ", 13, clientY);
         doc.text("P", 26, clientY);
-        doc.text(parseFloat(order_result.shipping_amount).toFixed(2), 42, clientY, 'right');
+        doc.text(parseFloat(order_result.shipping_amount).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 3;
         doc.text("Tax Fee: ", 13, clientY);
         doc.text("P", 26, clientY);
-        doc.text(parseFloat(order_result.tax_amount).toFixed(2), 42, clientY, 'right');
+        doc.text(parseFloat(order_result.tax_amount).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 3;
         doc.text("Grand Total: ", 13, clientY);
         doc.text("P", 26, clientY);
-        doc.text(parseFloat(order_result.grand_total).toFixed(2), 42, clientY, 'right');
+        doc.text(parseFloat(order_result.grand_total).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 2;
-        doc.line(0, clientY, 48, clientY);
+        doc.line(0, clientY, 44, clientY);
         clientY = clientY + 3;
         doc.text("Cashier: {{ auth()->guard('admin')->user()->name }}", 0, clientY);
         clientY = clientY + 3;

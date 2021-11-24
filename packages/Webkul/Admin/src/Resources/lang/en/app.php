@@ -74,6 +74,7 @@ return [
         'taxes'              => 'Taxes',
         'tax-categories'     => 'Tax Categories',
         'tax-rates'          => 'Tax Rates',
+        'delivery-rates'     => 'Delivery Rates',
         'marketing'          => 'Marketing',
         'promotions'         => 'Promotions',
         'email-marketing'    => 'Email Marketing',
@@ -118,6 +119,7 @@ return [
         'taxes'              => 'Taxes',
         'tax-categories'     => 'Tax Categories',
         'tax-rates'          => 'Tax Rates',
+        'delivery-rates'     => 'Delivery Rates',
         'view'               => 'View',
         'edit'               => 'Edit',
         'create'             => 'Add',
@@ -255,6 +257,9 @@ return [
         'date'             => 'Date',
         'transaction-id'   => 'Transaction ID',
         'transaction-date' => 'Transaction Date',
+        'distance'         => 'Distance',
+        'rate'             => 'Rate',
+        'estimated_time'   => 'Estimated Time',
     ],
 
     'account' => [
@@ -948,7 +953,24 @@ return [
         ],
         'development' => [
             'title' => 'Development',
-        ]
+        ],
+        'delivery-rates' => [
+            'title'             => 'Delivery Rate',
+            'add-title'         => 'Add Delivery Rate',
+            'edit-title'        => 'Edit Delivery Rate',
+            'save-btn-title'    => 'Save Delivery Rate',
+            'general'           => 'General',
+            'code'              => 'Code',
+            'name'              => 'Name',
+            'distance'          => 'Distance',
+            'estimated_time'          => 'Estimated Time',
+            'rate'              => 'Rate',
+            'direction'         => 'Direction',
+            'create-success'    => 'Delivery rate created successfully.',
+            'update-success'    => 'Delivery rate updated successfully.',
+            'delete-success'    => 'Delivery rate deleted successfully.',
+            'last-delete-error' => 'At least one Delivery rate is required.',
+        ],
     ],
 
     'customers' => [
@@ -1328,6 +1350,7 @@ return [
             'url-key'          => 'URL Key',
             'channel'          => 'Channels',
             'locale'           => 'Locales',
+            'delivery-rate'    => 'Delivery Rate',
             'create-btn-title' => 'Save Page',
             'edit-title'       => 'Edit Page',
             'edit-btn-title'   => 'Save Page',

@@ -675,6 +675,33 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
             //tax category ends
 
 
+            // Delivery Rates Routes
+            Route::get('/delivery-rates', 'Webkul\Core\Http\Controllers\DeliveryRateController@index')->defaults('_config', [
+                'view' => 'admin::settings.delivery-rates.index',
+            ])->name('admin.delivery-rates.index');
+
+            Route::get('/delivery-rates/create', 'Webkul\Core\Http\Controllers\DeliveryRateController@create')->defaults('_config', [
+                'view' => 'admin::settings.delivery-rates.create',
+            ])->name('admin.delivery-rates.create');
+
+            Route::post('/delivery-rates/create', 'Webkul\Core\Http\Controllers\DeliveryRateController@store')->defaults('_config', [
+                'redirect' => 'admin.delivery-rates.index',
+            ])->name('admin.delivery-rates.store');
+
+            Route::get('/delivery-rates/edit/{id}', 'Webkul\Core\Http\Controllers\DeliveryRateController@edit')->defaults('_config', [
+                'view' => 'admin::settings.delivery-rates.edit',
+            ])->name('admin.delivery-rates.edit');
+
+            Route::put('/delivery-rates/edit/{id}', 'Webkul\Core\Http\Controllers\DeliveryRateController@update')->defaults('_config', [
+                'redirect' => 'admin.delivery-rates.index',
+            ])->name('admin.delivery-rates.update');
+
+            Route::post('/delivery-rates/delete/{id}', 'Webkul\Core\Http\Controllers\DeliveryRateController@destroy')->name('admin.delivery-rates.delete');
+
+            Route::get('/delivery-rates/viewDeliveryRates', 'Webkul\Core\Http\Controllers\DeliveryRateController@viewDeliveryRates')->name('admin.delivery-rates.viewDeliveryRates');
+            //delivery rate ends
+
+
             //tax rate
             Route::get('tax-rates', 'Webkul\Tax\Http\Controllers\TaxRateController@index')->defaults('_config', [
                 'view' => 'admin::tax.tax-rates.index',
