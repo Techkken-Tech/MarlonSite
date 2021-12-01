@@ -186,11 +186,11 @@
                 {!! view_render_event('bagisto.shop.layout.header.account-item.after') !!}
 
 
-
+                <li><span class="menu-box" ><span class="icon icon-menu" id="hammenu"></span></li>
 
             </ul>
 
-            <span class="menu-box" ><span class="icon icon-menu" id="hammenu"></span>
+           
         </div>
     </div>
     <div class="search-responsive animate__animated animate__fadeIn" id="search-responsive">
@@ -202,6 +202,7 @@
         </form>
     </div>
 </div>
+@include('shop::layouts.header.nav-menu.sidebarmenu')
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs" defer></script>
@@ -340,7 +341,18 @@
         $(document).ready(function() {
 
             $('body').delegate('#search, .icon-menu-close, .icon.icon-menu', 'click', function(e) {
+               
                 toggleDropdown(e);
+   
+            });
+            $(".dark-page-overlay").click(function(){
+                $(".dark-page-overlay").fadeOut();
+                $("#sidebar-wrapper").fadeOut(500);
+            });
+
+            $(".menu-box").click(function() {
+                $(".dark-page-overlay").fadeIn();
+                $("#sidebar-wrapper").fadeIn(500);
             });
 
             @auth('customer')
@@ -370,21 +382,12 @@
                     $('#hammenu').addClass('icon-menu');
                     $("#search-responsive").css("display", "block");
                     $("#header-bottom").css("display", "none");
-                } else if (currentElement.hasClass('icon-menu')) {
-                    currentElement.removeClass('icon-menu');
-                    currentElement.addClass('icon-menu-close');
-                    $('#search').removeClass('icon-menu-close');
-                    $('#search').addClass('icon-search');
-                    $("#search-responsive").css("display", "none");
-                    $("#header-bottom").css("display", "block");
-                } else {
-                    currentElement.removeClass('icon-menu-close');
+                }
+                else {
                     $("#search-responsive").css("display", "none");
                     $("#header-bottom").css("display", "none");
                     if (currentElement.attr("id") == 'search') {
                         currentElement.addClass('icon-search');
-                    } else {
-                        currentElement.addClass('icon-menu');
                     }
                 }
             }

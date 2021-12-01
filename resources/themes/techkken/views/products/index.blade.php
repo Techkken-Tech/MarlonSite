@@ -52,7 +52,7 @@
                         @inject ('toolbarHelper', 'Webkul\Product\Helpers\Toolbar')
 
                         @if ($toolbarHelper->getCurrentMode() == 'grid')
-                            <div class="product-grid-3">
+                            <div class="product-grid-4">
                                 @foreach ($products as $productFlat)
 
                                     @include ('shop::products.list.card', ['product' => $productFlat])
