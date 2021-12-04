@@ -104,6 +104,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.2.7/purify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.5.14/dist/jspdf.plugin.autotable.js"></script>
+<script src="{{ asset('js/Tahoma Regular font-normal.js') }}"></script>;
 
 <script type="text/javascript">
     window.jsPDF = window.jspdf.jsPDF;
@@ -113,13 +114,18 @@
 
         var doc = new jsPDF('p', 'mm', [44, 100]);
 
+        // Add Font...
+        doc.addFileToVFS('Tahoma Regular font-normal.ttf', font);
+        doc.addFont('Tahoma Regular font-normal.ttf', 'Tahoma Regular font', 'normal');
+
         // Build PDF here...
         console.log(doc.getFontList());
-        doc.setFont('helvetica');
-        doc.setFontSize(8);
+        //doc.setFont('courier');
+        doc.setFont('Tahoma Regular font', "normal");
+        doc.setFontSize(7);
 
         doc.text(order_result.channel_name, 22, 4, 'center');
-        doc.setFontSize(6);
+        //doc.setFontSize(6);
         doc.text("Thank you for your purchase!", 22, 7, 'center');
         doc.text("Tel No: (02) 8888-8888", 22, 10, 'center');
 
@@ -148,38 +154,45 @@
         // ORDER LIST
         var serverY = 33;
 
+        var counter = 0;
         order_result.items.forEach(element => {
             var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
             doc.text("x" + element.qty_ordered, 0, serverY);
             doc.text(element.name, 4, serverY);
             doc.text("P" + grand_total.toFixed(2), 43, serverY, 'right');
             serverY+=3;
+            counter++;
         });
 
         var clientY = serverY
 
-        clientY = clientY + 3;
-        doc.text("Sub-Total: ", 13, clientY);
-        doc.text("P", 26, clientY);
+        /* clientY = clientY + 1;
+        doc.text(counter + " item(s)", 0, clientY); */
+
+        clientY = clientY + 6;
+        doc.text("Sub-Total: ", 10, clientY);
+        doc.text("P", 27, clientY);
 
         doc.text(parseFloat(order_result.invoices[0].sub_total).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 3;
-        doc.text("Delivery Fee: ", 13, clientY);
-        doc.text("P", 26, clientY);
+        doc.text("Delivery Fee: ", 10, clientY);
+        doc.text("P", 27, clientY);
         doc.text(parseFloat(order_result.shipping_amount).toFixed(2), 43, clientY, 'right');
 
         clientY = clientY + 3;
-        doc.text("Tax Fee: ", 13, clientY);
-        doc.text("P", 26, clientY);
+        doc.text("Tax Fee: ", 10, clientY);
+        doc.text("P", 27, clientY);
         doc.text(parseFloat(order_result.tax_amount).toFixed(2), 43, clientY, 'right');
 
-        clientY = clientY + 3;
-        doc.text("Grand Total: ", 13, clientY);
-        doc.text("P", 26, clientY);
+        clientY = clientY + 4;
+        doc.text("Grand Total: ", 10, clientY);
+        doc.text("P", 27, clientY);
+        doc.setFontSize(10);
         doc.text(parseFloat(order_result.grand_total).toFixed(2), 43, clientY, 'right');
 
-        clientY = clientY + 2;
+        doc.setFontSize(7);
+        clientY = clientY + 4;
         doc.line(0, clientY, 44, clientY);
         clientY = clientY + 3;
         doc.text("Cashier: {{ auth()->guard('admin')->user()->name }}", 0, clientY);
