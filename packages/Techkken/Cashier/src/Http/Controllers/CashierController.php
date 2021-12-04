@@ -93,7 +93,7 @@ class CashierController extends Controller
 
             //Execute the select query built by refactoring
             $page_count = 25;
-            $qry_res = $qry->orderBy('id', 'desc')
+            $qry_res = $qry->orderBy('id')
                 ->paginate($page_count);
 
             return view($this->_config['view'])->with(['orders' => $qry_res]);
@@ -181,9 +181,9 @@ class CashierController extends Controller
         $order = $this->orderRepository->findOrFail($id);
        $this->orderRepository->updateOrderStatus($order, 'processing');
 
-      
+
         session()->flash('success', trans('Processing order:'.$id, ['name' => 'Order']));
- 
+
         return redirect()->back();
     }
 }

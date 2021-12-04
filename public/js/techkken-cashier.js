@@ -73,6 +73,7 @@ function viewOrder(data_url) {
             $('#data-shipping_method').text(result.shipping_title);
             $('#data-shipping_method').text(result.shipping_price);
 
+            $('#data-table_items tbody').empty();
             result.items.forEach(element => {
                 var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
                 $('#data-table_items tbody').append(
@@ -85,8 +86,7 @@ function viewOrder(data_url) {
 
             $('#data-sub_total').text(result.invoices[0].sub_total);
             $('#data-delivery_fee').text(result.invoices[0].shipping_amount);
-            $('#data-grand_total').text(result.invoices[0].grand_total);
-
+            $('#data-grand_total').text(result.invoices[0].grand_total)
 
             // Show Modal
             $("#cashier-modal").show();
