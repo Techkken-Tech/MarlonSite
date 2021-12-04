@@ -13,10 +13,10 @@ foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCateg
 <nav class="navbar">
   <div class="container-fluid">
     <ul class="nav navbar-nav">
-      <li class="nav-item active"><span href="#"><a>Home</a></span></li>
+      <li class="nav-item active" data-path="home"><span><a href="{{ route('shop.home.index')}}">Home</a></span></li>
       @foreach($categories as $category)
 
-      <li class="nav-item"><span class="dropdown-toggle">{{$category->name}}</span>
+      <li class="nav-item" data-path="menu"><span class="dropdown-toggle">{{$category->name}}</span>
         @if(count($category->children)>0)
           <ul class="dropdown-list">
             @foreach($category->children as $subcategory)
@@ -28,7 +28,7 @@ foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCateg
 
       @endforeach
 
-      <li class="nav-item "><span href="#">About</span></li>
+      <li class="nav-item" data-path="about"><span>About</span></li>
     </ul>
   </div>
 </nav>

@@ -225,6 +225,8 @@
                     await this.$validator.validateAll(scope).then(function (result) {
                         if (result) {
                             if (scope == 'address-form') {
+                                var _steps = document.querySelector('.checkout-steps');
+                                _steps.scrollIntoView();
                                 this_this.saveAddress();
                             } else if (scope == 'shipping-form') {
                                 this_this.saveShipping();

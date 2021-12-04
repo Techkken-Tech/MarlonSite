@@ -13,6 +13,7 @@ use Webkul\Core\Repositories\CoreConfigRepository;
 use Webkul\Core\Repositories\CountryStateRepository;
 use Webkul\Core\Repositories\ExchangeRateRepository;
 use Webkul\Customer\Repositories\CustomerGroupRepository;
+use Webkul\Core\Repositories\DeliveryRateRepository;
 
 class Core
 {
@@ -71,7 +72,12 @@ class Core
      * @var \Webkul\Core\Repositories\CoreConfigRepository
      */
     protected $coreConfigRepository;
-
+    /**
+     * CoreConfigRepository class
+     *
+     * @var \Webkul\Core\Repositories\DeliveryRateRepository
+     */
+    protected $deliveryRateRepository;
     /**
      * @var \Webkul\Core\Models\Channel
      */
@@ -97,7 +103,7 @@ class Core
      * @param \Webkul\Core\Repositories\LocaleRepository        $localeRepository
      * @param \Webkul\Core\Repositories\CustomerGroupRepository $customerGroupRepository
      * @param \Webkul\Core\Repositories\CoreConfigRepository    $coreConfigRepository
-     *
+     * @param \Webkul\Core\Repositories\DeliveryRateRepository    $deliveryRateRepository
      * @return void
      */
     public function __construct(
@@ -108,7 +114,8 @@ class Core
         CountryStateRepository $countryStateRepository,
         LocaleRepository $localeRepository,
         CustomerGroupRepository $customerGroupRepository,
-        CoreConfigRepository $coreConfigRepository
+        CoreConfigRepository $coreConfigRepository,
+        DeliveryRateRepository $deliveryRateRepository
     )
     {
         $this->channelRepository = $channelRepository;
@@ -126,6 +133,8 @@ class Core
         $this->customerGroupRepository = $customerGroupRepository;
 
         $this->coreConfigRepository = $coreConfigRepository;
+
+        $this->deliveryRateRepository = $deliveryRateRepository;
     }
 
     /**
@@ -142,6 +151,22 @@ class Core
         }
 
         return $channels = $this->channelRepository->all();
+    }
+
+    /**
+     * Returns all delivery rates.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllDeliveryRates()
+    {
+        static $deliveryRates;
+
+        if ($deliveryRates) {
+            return $deliveryRates;
+        }
+
+        return $deliveryRates = $this->deliveryRateRepository->all();
     }
 
     /**

@@ -1,3 +1,4 @@
+<?php $deliveryRates = core()->getAllDeliveryRates(); ?>
 <form data-vv-scope="address-form">
 
     <div class="form-container" v-if="!this.new_billing_address">
@@ -56,7 +57,7 @@
         </div>
 
         @if ($cart->haveStockableItems())
-            <div class="control-group mt-5">
+            <div class="control-group mt-5 hidden">
                 <span class="checkbox">
                     <input type="checkbox" id="billing[use_for_shipping]" name="billing[use_for_shipping]" v-model="address.billing.use_for_shipping"/>
                         <label class="checkbox-view" for="billing[use_for_shipping]"></label>
@@ -97,17 +98,7 @@
             @include('shop::checkout.onepage.customer-checkout')
         @endif
 
-        <div class="control-group" :class="[errors.has('address-form.billing[company_name]') ? 'has-error' : '']">
-            <label for="billing[company_name]">
-                {{ __('shop::app.checkout.onepage.company-name') }}
-            </label>
 
-            <input type="text" class="control" id="billing[company_name]" name="billing[company_name]" v-model="address.billing.company_name" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.company-name') }}&quot;"/>
-
-            <span class="control-error" v-if="errors.has('address-form.billing[company_name]')">
-                @{{ errors.first('address-form.billing[company_name]') }}
-            </span>
-        </div>
 
         <div class="control-group" :class="[errors.has('address-form.billing[first_name]') ? 'has-error' : '']">
             <label for="billing[first_name]" class="required">
@@ -155,71 +146,21 @@
 
         <div class="control-group" :class="[errors.has('address-form.billing[city]') ? 'has-error' : '']">
             <label for="billing[city]" class="required">
-                {{ __('shop::app.checkout.onepage.city') }}
+                {{ __('Area/City/Municipality') }}
             </label>
 
-            <input type="text" v-validate="'required'" class="control" id="billing[city]" name="billing[city]" v-model="address.billing.city" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.city') }}&quot;"/>
-
-            <span class="control-error" v-if="errors.has('address-form.billing[city]')">
-                @{{ errors.first('address-form.billing[city]') }}
-            </span>
-        </div>
-
-        <div class="control-group" :class="[errors.has('address-form.billing[country]') ? 'has-error' : '']">
-            <label for="billing[country]" class="required">
-                {{ __('shop::app.checkout.onepage.country') }}
-            </label>
-
-            <select type="text" v-validate="'required'" class="control" id="billing[country]" name="billing[country]" v-model="address.billing.country" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.country') }}&quot;">
-                <option value=""></option>
-
-                @foreach (core()->countries() as $country)
-
-                    <option value="{{ $country->code }}">{{ $country->name }}</option>
-
-                @endforeach
+            <select class="control" id="billing[city]" name="billing[city]" v-model="address.billing.city" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.city') }}&quot;">
+                @for ($i = 0; $i < count($deliveryRates); $i++)
+                   <option>{{$deliveryRates[$i]->name}}</option>
+                @endfor
             </select>
 
-            <span class="control-error" v-if="errors.has('address-form.billing[country]')">
-                @{{ errors.first('address-form.billing[country]') }}
-            </span>
+
         </div>
 
-        <div class="control-group" :class="[errors.has('address-form.billing[state]') ? 'has-error' : '']">
-            <label for="billing[state]" class="required">
-                {{ __('shop::app.checkout.onepage.state') }}
-            </label>
+        
 
-            <input type="text" v-validate="'required'" class="control" id="billing[state]" name="billing[state]" v-model="address.billing.state" v-if="!haveStates('billing')" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.state') }}&quot;"/>
-
-            <select v-validate="'required'" class="control" id="billing[state]" name="billing[state]" v-model="address.billing.state" v-if="haveStates('billing')" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.state') }}&quot;">
-
-                <option value="">{{ __('shop::app.checkout.onepage.select-state') }}</option>
-
-                <option v-for='(state, index) in countryStates[address.billing.country]' :value="state.code">
-                    @{{ state.default_name }}
-                </option>
-
-            </select>
-
-            <span class="control-error" v-if="errors.has('address-form.billing[state]')">
-                @{{ errors.first('address-form.billing[state]') }}
-            </span>
-        </div>
-
-        <div class="control-group" :class="[errors.has('address-form.billing[postcode]') ? 'has-error' : '']">
-            <label for="billing[postcode]" class="required">
-                {{ __('shop::app.checkout.onepage.postcode') }}
-            </label>
-
-            <input type="text" v-validate="'required'" class="control" id="billing[postcode]" name="billing[postcode]" v-model="address.billing.postcode" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.postcode') }}&quot;"/>
-
-            <span class="control-error" v-if="errors.has('address-form.billing[postcode]')">
-                @{{ errors.first('address-form.billing[postcode]') }}
-            </span>
-        </div>
-
-        <div class="control-group" :class="[errors.has('address-form.billing[phone]') ? 'has-error' : '']">
+    <div class="control-group" :class="[errors.has('address-form.billing[phone]') ? 'has-error' : '']">
             <label for="billing[phone]" class="required">
                 {{ __('shop::app.checkout.onepage.phone') }}
             </label>
@@ -232,7 +173,7 @@
         </div>
 
         @if ($cart->haveStockableItems())
-            <div class="control-group">
+            <div class="control-group hidden">
                 <span class="checkbox">
                     <input type="checkbox" id="billing[use_for_shipping]" name="billing[use_for_shipping]" v-model="address.billing.use_for_shipping"/>
                     <label class="checkbox-view" for="billing[use_for_shipping]"></label>

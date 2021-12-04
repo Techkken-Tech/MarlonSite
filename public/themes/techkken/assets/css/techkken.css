@@ -517,6 +517,13 @@ span.featured-seperator {
     align-self: center;
 }
 
+.discount-control{
+    display: none;
+}
+
+.discount-control button {
+    width: 100%;
+}
 #app input.control.subscribe-field {
     max-width: 315px;
     font-size: 13px;
@@ -799,6 +806,8 @@ div#search-responsive {
 
   #app .alert-wrapper{
     z-index: 2000;
+    top: 90px;
+    font-size: small;
 }
 #app .checkout-process .col-main ul.checkout-steps li.active {
     color: var(--accent);
@@ -860,6 +869,9 @@ ul.nav {
     color: white;
 }
 
+.address-summary .shipping-address {
+    display: none;
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (max-width: 1324px) {
@@ -927,6 +939,18 @@ ul.nav {
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 768px) {
+    #app .product-image .cart-wish-wrap, #app .product-image .default-wrap{
+        opacity: 1;
+    }
+    #app .product-image .cart-wish-wrap:hover, #app .product-image .default-wrap:hover{
+        background-color: var(--accent-hover);
+    }
+    .mobile-w-100{
+        width: 100% !important;
+    }
+    .mobile-mb-20{
+        margin-bottom: 20px;
+    }
     #header {
         color: #fff;
         position: fixed;

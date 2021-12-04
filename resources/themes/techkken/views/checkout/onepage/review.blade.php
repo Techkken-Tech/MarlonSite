@@ -108,7 +108,7 @@
                     {!! view_render_event('bagisto.shop.checkout.name.after', ['item' => $item]) !!}
                     {!! view_render_event('bagisto.shop.checkout.price.before', ['item' => $item]) !!}
 
-                    <div class="row">
+                    <div class="tk-row">
                         <span class="title">
                             {{ __('shop::app.checkout.onepage.price') }}
                         </span>
@@ -120,7 +120,7 @@
                     {!! view_render_event('bagisto.shop.checkout.price.after', ['item' => $item]) !!}
                     {!! view_render_event('bagisto.shop.checkout.quantity.before', ['item' => $item]) !!}
 
-                    <div class="row">
+                    <div class="tk-row">
                         <span class="title">
                             {{ __('shop::app.checkout.onepage.quantity') }}
                         </span>
@@ -150,7 +150,7 @@
     </div>
 
     <div class="order-description mt-20">
-        <div class="pull-left" style="width: 60%; float: left;">
+        <div class="pull-left mobile-w-100 mobile-mb-20"  style="width: 60%; float: left;">
             @if ($cart->haveStockableItems())
                 <div class="shipping">
                     <div class="decorator">
@@ -179,7 +179,7 @@
 
         </div>
 
-        <div class="pull-right" style="width: 40%; float: left;">
+        <div class="pull-right mobile-w-100" style="width: 40%; float: left;">
             <slot name="summary-section"></slot>
         </div>
     </div>

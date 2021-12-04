@@ -351,8 +351,8 @@
             });
 
             $(".menu-box").click(function() {
-                $(".dark-page-overlay").fadeIn();
-                $("#sidebar-wrapper").fadeIn(500);
+                $(".dark-page-overlay").toggle();
+                $("#sidebar-wrapper").toggle();
             });
 
             @auth('customer')
