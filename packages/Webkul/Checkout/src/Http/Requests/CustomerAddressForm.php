@@ -47,10 +47,6 @@ class CustomerAddressForm extends FormRequest
                 'billing.email'      => ['required'],
                 'billing.address1'   => ['required'],
                 'billing.city'       => ['required'],
-                'billing.state'      => ['required'],
-                'billing.postcode'   => ['required'],
-                'billing.phone'      => ['required'],
-                'billing.country'    => ['required'],
             ]);
         }
 
