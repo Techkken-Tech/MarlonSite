@@ -122,7 +122,7 @@
         console.log(doc.getFontList());
         //doc.setFont('courier');
         doc.setFont('Tahoma Regular font', "normal");
-        doc.setFontSize(7);
+        doc.setFontSize(8);
 
         doc.text(order_result.channel_name, 22, 4, 'center');
         //doc.setFontSize(6);
@@ -135,6 +135,9 @@
         doc.text("Date: " + var_date.toLocaleDateString(), 0, 19);
         doc.text("Time: " + var_date.toLocaleTimeString(), 0, 22);
         doc.text("Customer: " + order_result.customer_first_name + " " + order_result.customer_last_name, 0, 25);
+        doc.text("Address: ", 0, 28);
+        doc.text(order_result.addresses[0].address1 + ", " + order_result.addresses[0].city, 2, 31);
+        doc.text("Contact #: " + order_result.addresses[0].phone, 0, 34);
         let method_name = "";
             switch (order_result.payment.method) {
                 case "cashondelivery":
@@ -147,18 +150,19 @@
                     method_name = "GCash";
                     break;
             }
-        doc.text("Payment: " + method_name, 0, 28);
+        doc.text("Payment: " + method_name, 0, 37);
 
-        doc.line(0, 30, 44, 30);
+        doc.line(0, 39, 44, 39);
 
         // ORDER LIST
-        var serverY = 33;
+        var serverY = 42;
 
         var counter = 0;
         order_result.items.forEach(element => {
             var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
             doc.text("x" + element.qty_ordered, 0, serverY);
             doc.text(element.name, 4, serverY);
+            serverY+=3;
             doc.text("P" + grand_total.toFixed(2), 43, serverY, 'right');
             serverY+=3;
             counter++;
@@ -191,13 +195,13 @@
         doc.setFontSize(10);
         doc.text(parseFloat(order_result.grand_total).toFixed(2), 43, clientY, 'right');
 
-        doc.setFontSize(7);
+        doc.setFontSize(8);
         clientY = clientY + 4;
         doc.line(0, clientY, 44, clientY);
         clientY = clientY + 3;
         doc.text("Cashier: {{ auth()->guard('admin')->user()->name }}", 0, clientY);
         clientY = clientY + 3;
-        doc.text("Receipt Valid Until <?php echo Carbon\Carbon::now()->addYear(); ?>", 0, clientY);
+        doc.text("Valid Until <?php echo Carbon\Carbon::now()->addYear(); ?>", 0, clientY);
 
         //doc.save("OR_" + or_num + ".pdf");
         doc.autoPrint();

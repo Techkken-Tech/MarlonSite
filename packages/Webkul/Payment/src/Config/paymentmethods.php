@@ -16,5 +16,14 @@ return [
         'class'       => 'Webkul\Payment\Payment\MoneyTransfer',
         'active'      => true,
         'sort'        => 2,
+    ],
+
+    'gcash'   => [
+        'code'        => 'gcash',
+        'title'       => 'GCash',
+        'description' => 'GCash',
+        'class'       => 'Webkul\Payment\Payment\GCash',
+        'active'      => true,
+        'sort'        => 3,
     ]
 ];
