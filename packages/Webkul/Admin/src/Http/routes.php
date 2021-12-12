@@ -919,5 +919,5 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
 });
 
 Route::prefix('gcash')->group(function() {
-    Route::post('payment', [GCashController::class, 'GCashWebhook'])->name('gcash.payment');
+    Route::post('payment', 'Webkul\Payment\Http\Controllers\GCashController@GCashWebhook')->name('gcash.payment');
 });

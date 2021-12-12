@@ -27,11 +27,13 @@ class GCashController extends Controller
 
                 $client = new \GuzzleHttp\Client();
 
+                Log::debug(env('GCASH_SECRET_KEY'));
+
                 $response = $client->request('POST', 'https://api.paymongo.com/v1/payments', [
-                    'body' => $fields,
+                    'body' => $jsonFields,
                     'headers' => [
                         'Accept' => 'application/json',
-                        'Authorization' => 'Basic ' . env('GCASH_SECRET_KEY'),
+                        'Authorization' => 'Basic ' . base64_encode(env('GCASH_SECRET_KEY')),
                         'Content-Type' => 'application/json',
                     ],
                 ]);
@@ -44,7 +46,7 @@ class GCashController extends Controller
             return response('', 200);
         } catch (Exception $ex) {
             Log::error($ex->getMessage());
-            return response($ex->getMessage(), 404);
+            return response($ex->getMessage(), 500);
         }
     }
 }
