@@ -10,6 +10,10 @@ use Webkul\Payment\Facades\Payment;
 use Webkul\Checkout\Http\Requests\CustomerAddressForm;
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Customer\Repositories\CustomerRepository;
+use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Support\Facades\Config;
+use \Illuminate\Http\Request;
 
 class OnepageController extends Controller
 {
@@ -188,12 +192,49 @@ class OnepageController extends Controller
         if (Cart::hasError()) {
             return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 403);
         }
+        
 
         Cart::collectTotals();
 
         $this->validateOrder();
 
         $cart = Cart::getCart();
+        
+        $order = Cart::prepareDataForOrder();
+        
+        
+        if($order['payment']['method'] == "gcash"){
+            
+            //UPDATE KO CART LALAGYAN KO NG RANDOM ID 
+
+            $client = new GuzzleClient();
+            $grandTotal =$order['grand_total'];
+            $grandTotal = number_format($grandTotal, 2, '', '');
+            $base_api = Config::get('paymongo.base_api');
+            
+            
+            $gcashResponse = $client->request('POST', $base_api.'/sources', [
+            'body' => '{"data":{"attributes":{"amount":'.$grandTotal.',"redirect":{"success":"'. Config::get('paymongo.success_url').'/test","failed":"'.Config::get('paymongo.fail_url').'"},"type":"gcash","currency":"PHP"}}}',
+            'headers' => [
+                'Accept' => 'application/json',
+                'Authorization' => 'Basic '.base64_encode(Config::get('paymongo.public_key')),
+                'Content-Type' => 'application/json',
+            ],
+            ]);
+
+
+           // Log::channel("rdebug")->info(json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url);
+            $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
+            
+    
+            //REDIRECT SA BAYARAN NA PAGE
+
+            return response()->json([
+                'success'      => true,
+                'redirect_url' => $gcashRedirectUrl,
+            ]);
+        }
+
 
         if ($redirectUrl = Payment::getRedirectUrl($cart)) {
             return response()->json([
@@ -202,7 +243,7 @@ class OnepageController extends Controller
             ]);
         }
 
-        $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+        $order = $this->orderRepository->create($order);
 
         Cart::deActivateCart();
 
@@ -225,6 +266,27 @@ class OnepageController extends Controller
         if (! $order = session('order')) {
             return redirect()->route('shop.checkout.cart.index');
         }
+
+        return view($this->_config['view'], compact('order'));
+    }
+
+    /**
+     * Order success page
+     *
+     * @return \Illuminate\Http\Response
+    */
+    public function gcashsuccess(Request $request, $slug)
+    {
+        //TODO check if random token match with current cart 
+        
+        $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+
+        Cart::deActivateCart();
+
+        Cart::activateCartIfSessionHasDeactivatedCartId();
+
+        session()->flash('order', $order);
+
 
         return view($this->_config['view'], compact('order'));
     }
