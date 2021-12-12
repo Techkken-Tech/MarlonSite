@@ -76,6 +76,11 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+        'rdebug' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/rdebug.log'),
+            'level' => 'debug',
+        ]
     ],
 
 ];
