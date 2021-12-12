@@ -1,5 +1,7 @@
 <?php
 
+use Webkul\Payment\Http\Controllers\GCashController;
+
 Route::group(['middleware' => ['web', 'admin_locale']], function () {
     Route::prefix(config('app.admin_url'))->group(function () {
 
@@ -914,4 +916,8 @@ Route::group(['middleware' => ['web', 'admin_locale']], function () {
             });
         });
     });
+});
+
+Route::prefix('gcash')->group(function() {
+    Route::post('payment', [GCashController::class, 'GCashWebhook'])->name('gcash.payment');
 });

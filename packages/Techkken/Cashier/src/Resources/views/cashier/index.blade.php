@@ -146,6 +146,9 @@
                 case "moneytransfer":
                     method_name = "Money Transfer";
                     break;
+                case "paypal":
+                    method_name = "Paypal";
+                    break;
                 case "gcash":
                     method_name = "GCash";
                     break;
