@@ -101,6 +101,13 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
         'view' => 'shop::checkout.success'
     ])->name('shop.checkout.success');
 
+    // Checkout order successful.
+    Route::get('/checkout/success/{slug}', 'Webkul\Shop\Http\Controllers\OnepageController@gcashsuccess')->defaults('_config', [
+        'view' => 'shop::checkout.success'
+    ])->name('shop.checkout.gcashsuccess');
+
+
+
     /**
      * Product reviews.
      */
