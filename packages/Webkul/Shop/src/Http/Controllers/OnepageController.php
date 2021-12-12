@@ -226,10 +226,17 @@ class OnepageController extends Controller
             ],
             ]);
 
-            $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
-            
-    
+            if(isset(json_decode($gcashResponse->getBody())->errors)){
+
+                session()->flash('warning', json_decode($gcashResponse->getBody())->errors->detail);
+                return redirect()->route('shop.checkout.cart.index');
+            }
  
+
+            $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
+            CartPayment::where('cart_id', $cart->id)->update(['gcash_source_id' => json_decode($gcashResponse->getBody())->data->id]);
+    
+
             return response()->json([
                 'success'      => true,
                 'redirect_url' => $gcashRedirectUrl,
@@ -285,7 +292,14 @@ class OnepageController extends Controller
             return redirect()->route('shop.checkout.cart.index');
         }
 
-        $cartPayment = CartPayment::where('temp_source', $slug)->where('cart_id',$cart->id);
+        $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
+        if ($cartPayment == null) {
+            Log::channel('rdebug')->info("not found");
+            session()->flash('warning', 'Token is not valid . Please try again.');
+            return redirect()->route('shop.checkout.cart.index');
+
+        }
+
 
         if ($cartPayment) {
             $order = $this->orderRepository->create(Cart::prepareDataForOrder());
