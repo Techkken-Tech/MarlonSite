@@ -6,7 +6,7 @@ use Illuminate\Queue\InteractsWithQueue;
 
 use Webkul\Sales\Repositories\OrderRepository;
 use Webkul\Sales\Repositories\InvoiceRepository;
-
+use Illuminate\Support\Facades\Log;
 /**
  * Generate Invoice Event handler
  *
@@ -57,6 +57,10 @@ class GenerateInvoice
 
         if ($order->payment->method == 'moneytransfer' && core()->getConfigData('sales.paymentmethods.moneytransfer.generate_invoice')) {
             $this->invoiceRepository->create($this->prepareInvoiceData($order), core()->getConfigData('sales.paymentmethods.moneytransfer.invoice_status'), core()->getConfigData('sales.paymentmethods.moneytransfer.order_status'));
+        }
+        
+        if ($order->payment->method == 'gcash') {
+            $this->invoiceRepository->create($this->prepareInvoiceData($order), 'gcash-chargeable', 'pending');
         }
     }
 
