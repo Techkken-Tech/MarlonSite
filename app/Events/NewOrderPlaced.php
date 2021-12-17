@@ -15,19 +15,16 @@ class NewOrderPlaced implements ShouldBroadcastNow
 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $username;
-
-    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($username)
+    public function __construct()
     {
-        $this->username = $username;
-        $this->message  = "{$username} liked your status";
+   
+      
     }
 
     /**

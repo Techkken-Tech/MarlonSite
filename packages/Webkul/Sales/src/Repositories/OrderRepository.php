@@ -113,7 +113,7 @@ class OrderRepository extends Repository
 
                 Event::dispatch('checkout.order.orderitem.save.after', $data);
             }
-
+            event(new \App\Events\NewOrderPlaced());
             Event::dispatch('checkout.order.save.after', $order);
         } catch (\Exception $e) {
             /* rolling back first */
@@ -142,7 +142,7 @@ class OrderRepository extends Repository
      * @return \Webkul\Sales\Contracts\Order
      */
     public function create(array $data)
-    {
+    {        
         return $this->createOrderIfNotThenRetry($data);
     }
 
