@@ -21,7 +21,35 @@
         @yield('css')
 
         {!! view_render_event('techkken.admin.layout.head') !!}
+        <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+        <script>
 
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('ece51902004461ed7181', {
+            cluster: 'ap1',
+            encrypted: false
+            });
+
+
+            // Subscribe to the channel we specified in our Laravel Event
+            var channel = pusher.subscribe('new-order-placed');
+            channel.bind('pusher:subscription_succeeded', function(members) {
+                 console.log('successfully subscribed!');
+            });
+            // Bind a function to a Event (the full Laravel class)
+            channel.bind("new-order-placed", function(data) {
+                refreshTable();
+            });
+
+            function refreshTable() {
+                $('div.cashier-order-list').empty();
+                $('div.cashier-order-list').load("{{ route('cashier.table') }}", function() {
+                    $('div.cashier-order-list').fadeIn();
+                });
+            }
+        </script>
     </head>
 
     <body @if (core()->getCurrentLocale() && core()->getCurrentLocale()->direction == 'rtl') class="rtl" @endif style="scroll-behavior: smooth;">

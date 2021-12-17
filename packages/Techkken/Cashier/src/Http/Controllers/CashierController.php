@@ -104,6 +104,33 @@ class CashierController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function reloadTable()
+    {
+        try {
+            $qry = Order::query();
+
+            $qry->where('status', 'pending');
+            
+
+            //Execute the select query built by refactoring
+            $page_count = 25;
+            $qry_res = $qry->orderBy('id')
+                ->paginate($page_count);
+
+            return view($this->_config['view'])->with(['orders' => $qry_res]);
+
+        } catch (Exception $ex) {
+            //Log::error('reading softwares.', [$ex->getMessage()]);
+            return response()->json(['status' => $ex->getMessage()], 400);
+        }
+    }
+
+
+    /**
      * Show the view for the specified resource.
      *
      * @param  int  $id
