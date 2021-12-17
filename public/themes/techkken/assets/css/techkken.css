@@ -873,6 +873,12 @@ ul.nav {
     display: none;
 }
 
+.dropdown-list.account a.btn.btn-primary.btn-md {width:100%}
+
+.dropdown-list.account div a.btn.btn-primary.btn-md:first-child {margin-bottom:10px}
+
+
+
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (max-width: 1324px) {
 
@@ -1072,4 +1078,18 @@ ul.nav {
         text-align: center;
     }
 
+}
+@media only screen and (max-width: 574px){
+#app section.cart .cart-content .left-side .misc-controls {
+    display: block;
+    top: 200px;
+}
+}
+
+@media only screen and (max-width: 815px){
+#app section.cart .cart-content .left-side .misc-controls {
+    position: relative;
+    top: 200px;
+    margin-top: 0px;
+}
 }

@@ -94,7 +94,7 @@ export default {
                 this.images_loaded = true;
             }
             var _component = this;
-            setInterval(function(){ _component.changeIndexRight(); }, 10000);
+            setInterval(function(){ _component.changeIndexRight(); }, 6000);
             
         },
 
