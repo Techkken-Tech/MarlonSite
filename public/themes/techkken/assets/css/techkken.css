@@ -384,6 +384,7 @@ promote-content span.title {
 
 #app .product-image img {
     min-height: var(--image-maxheight);
+    max-height: var(--image-maxheight);
     object-fit: cover;
 }
 
@@ -1092,4 +1093,4 @@ ul.nav {
     top: 200px;
     margin-top: 0px;
 }
-}
+}   
