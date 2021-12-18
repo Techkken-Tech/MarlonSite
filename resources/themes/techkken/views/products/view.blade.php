@@ -126,10 +126,10 @@
             <li ><a data-toggle="tab" href="#product-reviews"><?php echo __('Reviews');?></a></li>
         </ul>
         <div class="tab-content">
-            <div id="product-description" class="container tab-pane">
+            <div id="product-description" class="container tab-pane fade  fade in active">
             {!! $product->description !!}
             </div>
-            <div id="product-reviews" class="container tab-pane fade  fade in active">
+            <div id="product-reviews" class="container tab-pane fade  fade in">
             @include ('shop::products.view.reviews')
             </div>
         </div>
