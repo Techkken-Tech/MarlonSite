@@ -27,7 +27,7 @@
     <script type="text/x-template" id="product-gallery-template">
         <div>
 
-            <ul class="thumb-list">
+            <ul class="thumb-list"  v-if="(thumbs.length > 1)">
                 <li class="gallery-control top" @click="moveThumbs('top')" v-if="(thumbs.length > 4) && this.is_move.up">
                     <span class="overlay"></span>
                     <i class="icon arrow-up-white-icon"></i>
