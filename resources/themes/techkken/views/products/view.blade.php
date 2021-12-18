@@ -122,8 +122,8 @@
             </div>
         </product-view>
         <ul class="nav nav-tabs">
-            <li ><a data-toggle="tab" href="#product-description"><?php echo __('Description');?></a></li>
-            <li class="active"><a data-toggle="tab" href="#product-reviews"><?php echo __('Reviews');?></a></li>
+            <li ><a data-toggle="tab" class="active" href="#product-description"><?php echo __('Description');?></a></li>
+            <li ><a data-toggle="tab" href="#product-reviews"><?php echo __('Reviews');?></a></li>
         </ul>
         <div class="tab-content">
             <div id="product-description" class="container tab-pane">
