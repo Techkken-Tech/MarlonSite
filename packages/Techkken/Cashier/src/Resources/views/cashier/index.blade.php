@@ -130,14 +130,30 @@
         doc.text("Tel No: (02) 8888-8888", 22, 10, 'center');
 
         //doc.text("***************************************************", 22, 10, 'center');
-        doc.text("Order #: " + order_result.id, 0, 16);
+        var topY = 16;
+        doc.text("Order #: " + order_result.id, 0, topY);
         var_date = new Date(order_result.created_at);
+        topY+=3;
         doc.text("Date: " + var_date.toLocaleDateString(), 0, 19);
+        topY+=3;
         doc.text("Time: " + var_date.toLocaleTimeString(), 0, 22);
+        topY+=3;
         doc.text("Customer: " + order_result.customer_first_name + " " + order_result.customer_last_name, 0, 25);
-        doc.text("Address: ", 0, 28);
-        doc.text(order_result.addresses[0].address1 + ", " + order_result.addresses[0].city, 2, 31);
-        doc.text("Contact #: " + order_result.addresses[0].phone, 0, 34);
+        topY+=3;
+        doc.text("Address: ", 0, topY);
+        topY+=3;
+        var full_address = order_result.addresses[0].address1 + ", " + order_result.addresses[0].city;
+        var address_lines = doc.splitTextToSize(full_address, 46);
+        console.log(address_lines);
+        address_lines.forEach(element => {
+            console.log(element);
+            doc.text(element, 1, topY);
+            topY+=3;
+        });
+
+        doc.text("Contact #: " + order_result.addresses[0].phone, 0, topY);
+        topY+=3;
+
         let method_name = "";
             switch (order_result.payment.method) {
                 case "cashondelivery":
@@ -153,19 +169,27 @@
                     method_name = "GCash";
                     break;
             }
-        doc.text("Payment: " + method_name, 0, 37);
+        doc.text("Payment: " + method_name, 0, topY);
+        topY+=2;
 
-        doc.line(0, 39, 44, 39);
+        doc.line(0, topY, 44, topY);
+        topY+=3;
 
         // ORDER LIST
-        var serverY = 42;
+        var serverY = topY;
 
         var counter = 0;
         order_result.items.forEach(element => {
             var grand_total = parseFloat(element.base_total) + parseFloat(element.base_tax_amount) - parseFloat(element.base_discount_amount);
             doc.text("x" + element.qty_ordered, 0, serverY);
-            doc.text(element.name, 4, serverY);
-            serverY+=3;
+
+            var item_lines = doc.splitTextToSize(element.name, 40);
+            item_lines.forEach(item => {
+                doc.text(item, 4, serverY);
+                serverY+=3;
+            });
+
+
             doc.text("P" + grand_total.toFixed(2), 43, serverY, 'right');
             serverY+=3;
             counter++;
