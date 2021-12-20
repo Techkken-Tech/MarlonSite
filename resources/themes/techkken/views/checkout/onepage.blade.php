@@ -78,6 +78,12 @@
                 <div class="step-content review" v-show="current_step == 4" id="summary-section">
                     <review-section v-if="current_step == 4" :key="reviewComponentKey">
                         <div slot="summary-section">
+
+                        <div class="form-group">
+                            <label for="ordercomment">Order Notes</label>
+                            <textarea class="form-control" id="ordercomment" rows="3"></textarea>
+                        </div>
+
                             <summary-section :key="summeryComponentKey"></summary-section>
 
                             <coupon-component
@@ -380,7 +386,7 @@
 
                     this.disable_button = true;
 
-                    this.$http.post("{{ route('shop.checkout.save-order') }}", {'_token': "{{ csrf_token() }}"})
+                    this.$http.post("{{ route('shop.checkout.save-order') }}", {'_token': "{{ csrf_token() }}",'order_comment' : $('textarea#ordercomment').val() })
                     .then(function(response) {
                         if (response.data.success) {
                             if (response.data.redirect_url) {

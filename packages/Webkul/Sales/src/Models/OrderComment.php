@@ -12,6 +12,7 @@ class OrderComment extends Model implements OrderCommentContract
         'comment',
         'customer_notified',
         'order_id',
+        'cart_id',
     ];
 
     /**

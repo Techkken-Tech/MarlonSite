@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Config;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Webkul\Checkout\Models\CartPayment;
+use Webkul\Sales\Models\OrderComment;
+use Webkul\Sales\Repositories\OrderCommentRepository;
 
 class OnepageController extends Controller
 {
@@ -33,22 +35,28 @@ class OnepageController extends Controller
      */
     protected $customerRepository;
 
+    protected $orderCommentRepository;
+
     /**
      * Create a new controller instance.
      *
      * @param  \Webkul\Attribute\Repositories\OrderRepository  $orderRepository
      * @param  \Webkul\Customer\Repositories\CustomerRepository  $customerRepository
+     * @param \Webkul\Sales\Repositories\OrderCommentRepository $orderCommentRepository
      * @return void
      */
     public function __construct(
         OrderRepository $orderRepository,
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        OrderCommentRepository $orderCommentRepository
+
     )
     {
         $this->orderRepository = $orderRepository;
 
         $this->customerRepository = $customerRepository;
 
+        $this->orderCommentRepository =$orderCommentRepository;
         parent::__construct();
     }
 
@@ -195,6 +203,7 @@ class OnepageController extends Controller
             return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 403);
         }
         
+        $order_comment = request()->get('order_comment');
 
         Cart::collectTotals();
 
@@ -204,7 +213,7 @@ class OnepageController extends Controller
         
         $order = Cart::prepareDataForOrder();
         
-        
+   
         if($order['payment']['method'] == "gcash"){
             
             
@@ -235,7 +244,11 @@ class OnepageController extends Controller
 
             $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
             CartPayment::where('cart_id', $cart->id)->update(['gcash_source_id' => json_decode($gcashResponse->getBody())->data->id]);
+            if($order_comment !== ""){
+                $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'cart_id' => $cart->id];
+                $this->orderCommentRepository->create($dataOrderComment);
     
+            }
 
             return response()->json([
                 'success'      => true,
@@ -253,11 +266,19 @@ class OnepageController extends Controller
 
         $order = $this->orderRepository->create($order);
 
+        if($order_comment !== ""){
+            $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'order_id' => $order->id];
+            $comment = $this->orderCommentRepository->create($dataOrderComment);
+
+        }
+
+
         Cart::deActivateCart();
 
         Cart::activateCartIfSessionHasDeactivatedCartId();
 
         session()->flash('order', $order);
+
 
         return response()->json([
             'success' => true,
@@ -294,7 +315,6 @@ class OnepageController extends Controller
 
         $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
         if ($cartPayment == null) {
-            Log::channel('rdebug')->info("not found");
             session()->flash('warning', 'Token is not valid . Please try again.');
             return redirect()->route('shop.checkout.cart.index');
 
@@ -303,6 +323,10 @@ class OnepageController extends Controller
 
         if ($cartPayment) {
             $order = $this->orderRepository->create(Cart::prepareDataForOrder());
+
+            //update order_comment
+            
+            OrderComment::where('cart_id', $cart->id)->update(['order_id' => $order->id]);
 
             Cart::deActivateCart();
 
