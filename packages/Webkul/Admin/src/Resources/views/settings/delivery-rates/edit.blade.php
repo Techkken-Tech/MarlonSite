@@ -54,6 +54,12 @@
                                 <span class="control-error" v-if="errors.has('rate')">@{{ errors.first('rate') }}</span>
                             </div>
 
+                            <div class="control-group" :class="[errors.has('minimum_cartvalue') ? 'has-error' : '']">
+                                <label for="minimum_cartvalue" class="required">{{ __('Minimum Cart Value') }}</label>
+                                <input v-validate="'required'" class="control" id="minimum_cartvalue" name="minimum_cartvalue" data-vv-as="&quot;{{ __('Minimum Cart Value') }}&quot;" value="{{ old('minimum_cartvalue') ?: $deliveryRate->minimum_cartvalue }}"/>
+                                <span class="control-error" v-if="errors.has('minimum_cartvalue')">@{{ errors.first('minimum_cartvalue') }}</span>
+                            </div>
+
 
                         </div>
                     </accordian>

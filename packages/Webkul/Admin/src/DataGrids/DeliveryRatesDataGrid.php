@@ -28,7 +28,7 @@ class DeliveryRatesDataGrid extends DataGrid
      */
     public function prepareQueryBuilder()
     {
-        $queryBuilder = DB::table('delivery_rates')->addSelect('id', 'name', 'estimated_time', 'rate');
+        $queryBuilder = DB::table('delivery_rates')->addSelect('id', 'name', 'estimated_time', 'rate','minimum_cartvalue');
 
         $this->setQueryBuilder($queryBuilder);
     }
@@ -73,6 +73,15 @@ class DeliveryRatesDataGrid extends DataGrid
             'type'       => 'string',
             'searchable' => true,
             'sortable'   => true,
+            'filterable' => true,
+        ]);
+
+        $this->addColumn([
+            'index'      => 'minimum_cartvalue',
+            'label'      =>  'Minimum Cart Value',
+            'type'       => 'string',
+            'searchable' => true,
+            'sortable'   => false,
             'filterable' => true,
         ]);
     }

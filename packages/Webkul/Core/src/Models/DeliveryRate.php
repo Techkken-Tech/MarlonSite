@@ -16,5 +16,6 @@ class DeliveryRate extends Model implements ContractsDeliveryRate
         'name',
         'estimated_time',
         'rate',
+        'minimum_cartvalue'
     ];
 }

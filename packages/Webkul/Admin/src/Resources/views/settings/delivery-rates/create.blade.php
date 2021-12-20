@@ -50,6 +50,13 @@
                                 <span class="control-error" v-if="errors.has('rate')">@{{ errors.first('rate') }}</span>
                             </div>
 
+                            <div class="control-group" :class="[errors.has('minimum_cartvalue') ? 'has-error' : '']">
+                                <label for="rate" class="required">{{ __('Minimum Cart Value') }}</label>
+                                <input v-validate="'required'" class="control" id="minimum_cartvalue" name="minimum_cartvalue" data-vv-as="&quot;{{ __('Minimum Cart Value') }}&quot;"/>
+                                <span class="control-error" v-if="errors.has('minimum_cartvalue')">@{{ errors.first('minimum_cartvalue') }}</span>
+                            </div>
+
+
 
 
                             {!! view_render_event('bagisto.admin.settings.deliver-rates.create.after') !!}

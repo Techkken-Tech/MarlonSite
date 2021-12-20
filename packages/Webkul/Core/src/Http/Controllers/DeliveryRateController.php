@@ -65,6 +65,7 @@ class DeliveryRateController extends Controller
             'name'              => 'required',
             'estimated_time'    => 'string',
             'rate'              => 'required|numeric',
+            'minimum_cartvalue' => 'required|numeric',
         ]);
 
         Event::dispatch('core.delivery-rates.create.before');
@@ -103,6 +104,7 @@ class DeliveryRateController extends Controller
             'name'              => 'required',
             'estimated_time'    => 'string',
             'rate'              => 'required|numeric',
+            'minimum_cartvalue'              => 'required|numeric',
         ]);
 
         Event::dispatch('core.delivery-rates.update.before', $id);
