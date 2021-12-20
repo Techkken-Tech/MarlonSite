@@ -60,7 +60,7 @@ class FlatRate extends AbstractShipping
     private function getRate($areaName){
         $drates=core()->getAllDeliveryRates();
         foreach($drates as $drate){
-            if($drate->name == $areaName){
+            if(trim($drate->name) == trim($areaName)){
                 return $drate;
             }
         }
