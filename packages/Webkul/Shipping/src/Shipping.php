@@ -33,8 +33,9 @@ class Shipping
 
         foreach (Config::get('carriers') as $shippingMethod) {
             $object = new $shippingMethod['class'];
-
-            if ($rates = $object->calculate()) {
+          
+        if ($rates = $object->calculate()) {
+            
                 if (is_array($rates)) {
                     $this->rates = array_merge($this->rates, $rates);
                 } else {
@@ -101,16 +102,19 @@ class Shipping
         $rates = [];
 
         foreach ($this->rates as $rate) {
+
             if (! isset($rates[$rate->carrier])) {
                 $rates[$rate->carrier] = [
                     'carrier_title' => $rate->carrier_title,
+                    'carrier_minimum_cartvalue' => $rate->minimum_cartvalue,
+                    'carrier_description' => $rate->method_description,
                     'rates'         => []
                 ];
             }
 
             $rates[$rate->carrier]['rates'][] = $rate;
         }
-
+        \Illuminate\Support\Facades\Log::channel('rdebug')->info($rates);
         return $rates;
     }
 
@@ -130,10 +134,18 @@ class Shipping
                 continue;
             }
 
+            $minimum_cartvalue = 0;
+
+            if($object->$minimum_cartvalue){
+                $minimum_cartvalue = $object->$minimum_cartvalue;
+            }
+
             $methods[] = [
                 'method'       => $object->getCode(),
                 'method_title' => $object->getTitle(),
-                'description'  => $object->getDescription()
+                'description'  => $object->getDescription(),
+                'minimum_cartvalue' => 2000
+                
             ];
         }
 

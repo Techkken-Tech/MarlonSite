@@ -1,4 +1,4 @@
-<form data-vv-scope="shipping-form">
+<form data-vv-scope="shipping-form" id="shipping-form">
     <div class="form-container">
         <div class="form-header mb-30">
             <span class="checkout-step-heading">{{ __('shop::app.checkout.onepage.shipping-method') }}</span>
@@ -13,7 +13,14 @@
 
                     <span class="carrier-title" id="carrier-title" style="font-size:18px; font-weight: bold;">
                         {{ $rateGroup['carrier_title'] }}
+                        
+                        
                     </span>
+                    <br>
+                    Minimum cart value : {{core()->currency($rateGroup['carrier_minimum_cartvalue'])}}
+                    <br>
+                    {{ $rateGroup['carrier_description'] }}
+
 
                     @foreach ($rateGroup['rates'] as $rate)
                         <div class="checkout-method-group mb-20">
@@ -26,14 +33,11 @@
                                 <b class="ship-rate method-label">{{ core()->currency($rate->base_price) }}</b>
                             </div>
 
-                            <div class="line-two mt-5">
-                                <div class="method-summary">
-                                    <b>{{ $rate->method_title }}</b> - {{ __($rate->method_description) }}
-                                </div>
-                            </div>
+
                         </div>
 
                     @endforeach
+                    
 
                     {!! view_render_event('bagisto.shop.checkout.shipping-method.after', ['rateGroup' => $rateGroup]) !!}
 

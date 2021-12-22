@@ -44,10 +44,15 @@ class FlatRate extends AbstractShipping
         $object->method_description = $this->getConfigData('description');
         $object->is_calculate_tax = $this->getConfigData('is_calculate_tax');
         $_rate= $this->getRate($cart->shipping_address->city );
+
+        
+      
         if ($_rate!=null) {
             $object->price = $_rate->rate;
             $object->base_price = $_rate->rate;
             $object->method_description.=" (".$_rate->estimated_time.")";
+            $object->minimum_cartvalue =  $_rate->minimum_cartvalue;
+        
         }else{
             return false;
         }
