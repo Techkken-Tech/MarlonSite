@@ -247,9 +247,14 @@
 
         //doc.text(, 0, clientY);
 
-        //doc.save("OR_" + order_result.id + ".pdf");
-        doc.autoPrint();
-        doc.output("dataurlnewwindow");
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            doc.save("OR_" + order_result.id + ".pdf");
+        }
+        else {
+            doc.autoPrint();
+            doc.output("dataurlnewwindow");
+        }
     }
 </script>
 @stop
