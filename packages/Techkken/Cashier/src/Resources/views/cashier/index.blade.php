@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="cashier-row-total">
-               PHP. {{number_format($order->base_grand_total_invoiced,2)}}
+                PHP. {{number_format($order->base_grand_total_invoiced,2)}}
             </div>
             <div class="cashier-row-action">
                 <div class="action-view" onclick="viewOrder('{{ route('cashier.viewOrder', [$order->id]) }}');"><span class="icon eye-icon"></span></div>
@@ -133,47 +133,46 @@
         var topY = 16;
         doc.text("Order #: " + order_result.id, 0, topY);
         var_date = new Date(order_result.created_at);
-        topY+=3;
+        topY += 3;
         doc.text("Date: " + var_date.toLocaleDateString(), 0, 19);
-        topY+=3;
+        topY += 3;
         doc.text("Time: " + var_date.toLocaleTimeString(), 0, 22);
-        topY+=3;
+        topY += 3;
         doc.text("Customer: " + order_result.customer_first_name + " " + order_result.customer_last_name, 0, 25);
-        topY+=3;
+        topY += 3;
         doc.text("Address: ", 0, topY);
-        topY+=3;
+        topY += 3;
         var full_address = order_result.addresses[0].address1 + ", " + order_result.addresses[0].city;
         var address_lines = doc.splitTextToSize(full_address, 46);
-        console.log(address_lines);
         address_lines.forEach(element => {
             console.log(element);
             doc.text(element, 1, topY);
-            topY+=3;
+            topY += 3;
         });
 
         doc.text("Contact #: " + order_result.addresses[0].phone, 0, topY);
-        topY+=3;
+        topY += 3;
 
         let method_name = "";
-            switch (order_result.payment.method) {
-                case "cashondelivery":
-                    method_name = "Cash On Delivery";
-                    break;
-                case "moneytransfer":
-                    method_name = "Money Transfer";
-                    break;
-                case "paypal":
-                    method_name = "Paypal";
-                    break;
-                case "gcash":
-                    method_name = "GCash";
-                    break;
-            }
+        switch (order_result.payment.method) {
+            case "cashondelivery":
+                method_name = "Cash On Delivery";
+                break;
+            case "moneytransfer":
+                method_name = "Money Transfer";
+                break;
+            case "paypal":
+                method_name = "Paypal";
+                break;
+            case "gcash":
+                method_name = "GCash";
+                break;
+        }
         doc.text("Payment: " + method_name, 0, topY);
-        topY+=2;
+        topY += 2;
 
         doc.line(0, topY, 44, topY);
-        topY+=3;
+        topY += 3;
 
         // ORDER LIST
         var serverY = topY;
@@ -186,12 +185,12 @@
             var item_lines = doc.splitTextToSize(element.name, 40);
             item_lines.forEach(item => {
                 doc.text(item, 4, serverY);
-                serverY+=3;
+                serverY += 3;
             });
 
 
             doc.text("P" + grand_total.toFixed(2), 43, serverY, 'right');
-            serverY+=3;
+            serverY += 3;
             counter++;
         });
 
@@ -229,10 +228,33 @@
         doc.text("Cashier: {{ auth()->guard('admin')->user()->name }}", 0, clientY);
         clientY = clientY + 3;
         doc.text("Valid Until <?php echo Carbon\Carbon::now()->addYear(); ?>", 0, clientY);
+        clientY = clientY + 5;
+        doc.text("Notes: ", 0, clientY);
+        clientY = clientY + 3;
+        console.log(order_result.comments);
+        if (order_result.comments.length !== 0) {
+            var customer_comment = doc.splitTextToSize(order_result.comments[0].comment, 46);
+            customer_comment.forEach(comment => {
+                console.log(comment);
+                doc.text(comment, 1, clientY);
+                clientY += 3;
+            });
+        }
+        else {
+            doc.text("Customer do not have notes.", 1, clientY);
+            clientY += 3;
+        }
 
-        //doc.save("OR_" + or_num + ".pdf");
-        doc.autoPrint();
-        doc.output("dataurlnewwindow");
+        //doc.text(, 0, clientY);
+
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            doc.save("OR_" + order_result.id + ".pdf");
+        }
+        else {
+            doc.autoPrint();
+            doc.output("dataurlnewwindow");
+        }
     }
 </script>
 @stop

@@ -114,7 +114,7 @@ class CashierController extends Controller
             $qry = Order::query();
 
             $qry->where('status', 'pending');
-            
+
 
             //Execute the select query built by refactoring
             $page_count = 25;
@@ -155,7 +155,9 @@ class CashierController extends Controller
 
         $invoices = $order->invoices;
 
-        $collection = collect($order, $addresses, $payment, $items, $invoices);
+        $comments = $order->comments;
+
+        $collection = collect($order, $addresses, $payment, $items, $invoices, $comments);
 
         return $collection;
     }
