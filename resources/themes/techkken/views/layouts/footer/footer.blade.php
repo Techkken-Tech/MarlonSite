@@ -16,9 +16,15 @@
                     <span class="list-heading">Categories</span>
 
                     <ul class="list-group">
-                        @foreach ($categories as $key => $category)
-                            <li>
-                                <a href="{{ route('shop.productOrCategory.index', $category->slug) }}">{{ $category->name }}</a>
+                        @foreach ($categories as $key => $category)   
+
+                                @if(count($category->children)>0)
+                                
+                                    @foreach($category->children as $subcategory)
+                                    <li class="nav-item" data-path="menu"><a href="/{{$subcategory->url_path}}">{{$subcategory->name}}</a></li>
+                                    @endforeach
+                                
+                                @endif
                             </li>
                         @endforeach
                     </ul>
