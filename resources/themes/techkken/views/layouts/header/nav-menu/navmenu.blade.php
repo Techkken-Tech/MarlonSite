@@ -28,7 +28,7 @@ foreach (app('Webkul\Category\Repositories\CategoryRepository')->getVisibleCateg
 
       @endforeach
 
-      <li class="nav-item" data-path="about"><span>About</span></li>
+      <li class="nav-item" data-path="about"><span><a href="/page/about-us">About</a></span></li>
     </ul>
   </div>
 </nav>
