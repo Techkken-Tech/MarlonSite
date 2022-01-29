@@ -6,10 +6,33 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Webkul\Admin\Http\Controllers\Controller;
+use Webkul\Checkout\Models\CartPayment;
+use Webkul\Sales\Models\Order;
+use Webkul\Sales\Models\OrderPayment;
+use Webkul\Sales\Repositories\OrderRepository;
 
 class GCashController extends Controller
 {
     //
+    /**
+     * OrderRepository object
+     *
+     * @var \Webkul\Sales\Repositories\OrderRepository
+     */
+    protected $orderRepository;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param  \Webkul\Sales\Repositories\OrderRepository  $orderRepository
+     * @return void
+     */
+    public function __construct(
+        OrderRepository $orderRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+    }
+
     public function GCashWebhook(Request $request)
     {
         try {
@@ -41,8 +64,25 @@ class GCashController extends Controller
                 Log::debug($response->getBody());
 
                 // Update Order
-
             }
+            elseif($type == 'payment.paid') {
+                $source_id = $payload['data']['attributes']['data']['attributes']['source']['id'];
+                Log::debug("payment.paid webhook", [$source_id]);
+
+                $cart_payment = CartPayment::where('gcash_source_id', $source_id)->get();
+                Log::debug("cart_payment", [$cart_payment]);
+
+                Log::debug("cart_id", [$cart_payment[0]->cart_id]);
+
+                $order = $this->orderRepository->where('cart_id', $cart_payment[0]->cart_id)->get();
+
+                Log::debug("order", [$order]);
+
+                // Update Order Status from Pending Payment to Pending.
+                $order->status = "pending";
+                $order->save();
+            }
+
             return response('', 200);
         } catch (Exception $ex) {
             Log::error($ex->getMessage());

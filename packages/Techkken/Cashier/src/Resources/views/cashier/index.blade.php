@@ -39,7 +39,10 @@
                 <div>
                     @switch($order->status)
                     @case("pending")
-                    <span class="badge badge-md badge-warning">{{ucfirst($order->status)}}</span>
+                    <span class="badge badge-md badge-info">{{ucfirst($order->status)}}</span>
+                    @break
+                    @case("pending_payment")
+                    <span class="badge badge-md badge-warning">{{ucfirst("Pending Payment")}}</span>
                     @break
                     @case("completed")
                     <span class="badge badge-md badge-success">{{ucfirst($order->status)}}</span>

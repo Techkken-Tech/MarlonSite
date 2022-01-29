@@ -81,7 +81,7 @@ class CashierController extends Controller
                 $qry->where('status', strtolower($request->status));
             }
             else {
-                $qry->where('status', 'pending');
+                $qry->where('status', 'LIKE', 'pending%');
             }
 
             if ($request->has('date_start') && $request->has('date_end') && $request->date_start != '' && $request->date_end != '') {
@@ -92,7 +92,7 @@ class CashierController extends Controller
             }
 
             //Execute the select query built by refactoring
-            $page_count = 25;
+            $page_count = 50;
             $qry_res = $qry->orderBy('id')
                 ->paginate($page_count);
 
@@ -113,11 +113,11 @@ class CashierController extends Controller
         try {
             $qry = Order::query();
 
-            $qry->where('status', 'pending');
+            $qry->where('status', 'LIKE', 'pending%');
 
 
             //Execute the select query built by refactoring
-            $page_count = 25;
+            $page_count = 50;
             $qry_res = $qry->orderBy('id')
                 ->paginate($page_count);
 
