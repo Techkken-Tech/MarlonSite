@@ -78,9 +78,10 @@ class GCashController extends Controller
 
                 Log::debug("order", [$order]);
 
+                $order_update = Order::findOrFail($order[0]->id);
                 // Update Order Status from Pending Payment to Pending.
-                $order->status = "pending";
-                $order->save();
+                $order_update->status = "pending";
+                $order_update->save();
             }
 
             return response('', 200);
