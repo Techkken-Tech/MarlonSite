@@ -208,8 +208,10 @@ class CashierController extends Controller
 
     public  function ProcessOrder($id){
         $order = $this->orderRepository->findOrFail($id);
-       $this->orderRepository->updateOrderStatus($order, 'processing');
+        $this->orderRepository->updateOrderStatus($order, 'processing');
 
+
+        Event::dispatch('sales.order.process', $order);
 
         session()->flash('success', trans('Processing order:'.$id, ['name' => 'Order']));
 

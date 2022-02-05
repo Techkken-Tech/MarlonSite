@@ -316,9 +316,15 @@
                             this_this.disable_button = false;
 
                             if (this_this.step_numbers[response.data.jump_to_section] == 2)
-                                shippingHtml = Vue.compile(response.data.html)
-                            else
-                                paymentHtml = Vue.compile(response.data.html)
+                            {    
+                                shippingHtml = Vue.compile(response.data.html);
+                                $("#shipping-form").remove();
+                                $("#shipping-section").prepend(shippingHtml );
+                            
+                            }
+                            else{
+                                paymentHtml = Vue.compile(response.data.html);
+                            }
 
                             this_this.completed_step = this_this.step_numbers[response.data.jump_to_section] - 1;
                             this_this.current_step = this_this.step_numbers[response.data.jump_to_section];
@@ -327,6 +333,8 @@
                             paymentMethods  = response.data.paymentMethods;
 
                             this_this.getOrderSummary();
+                            
+                            
                         })
                         .catch(function (error) {
                             this_this.disable_button = false;
@@ -394,6 +402,14 @@
                             } else {
                                 window.location.href = "{{ route('shop.checkout.success') }}";
                             }
+                        }else{
+
+                            this_this.disable_button = false;
+
+                            window.flashMessages = [{'type': 'alert-error', 'message': "{{ __('Minimum Cart Value not reached.') }}" }];
+
+                            this_this.$root.addFlashMessages();
+
                         }
                     })
                     .catch(function (error) {
