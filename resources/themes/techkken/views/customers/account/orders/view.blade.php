@@ -17,7 +17,9 @@
                 <span class="account-heading">
                     {{ __('shop::app.customer.account.order.view.page-tile', ['order_id' => $order->increment_id]) }}
                 </span>
-                <span></span>
+                <a style="display: inline-block" href="{{ route('shop.orderstatusupdates.index', ['id' => $order->id]) }}" class="btn btn-lg btn-primary">
+                        {{ __('Check order status') }}
+                </a>
 
 
                 @if ($order->canCancel())

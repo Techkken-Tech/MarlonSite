@@ -143,6 +143,7 @@ class OnepageController extends Controller
                 if (! $rates = Shipping::collectRates()) {
                     return response()->json(['redirect_url' => route('shop.checkout.cart.index')], 403);
                 } else {
+
                     return response()->json($rates);
                 }
             } else {
@@ -192,6 +193,19 @@ class OnepageController extends Controller
         ]);
     }
 
+
+
+    private function getRate($areaName){
+        $drates=core()->getAllDeliveryRates();
+        foreach($drates as $drate){
+            if(trim($drate->name) == trim($areaName)){
+                return $drate;
+            }
+        }
+        return null;
+
+    }
+
     /**
      * Saves order.
      *
@@ -212,6 +226,14 @@ class OnepageController extends Controller
         $cart = Cart::getCart();
         
         $order = Cart::prepareDataForOrder();
+        
+
+        $delivery_rate = $this->getRate($order['billing_address']['city']);
+        
+        if($cart->sub_total < $delivery_rate->minimum_cartvalue){
+            return response()->json(['success' => false, 'message' => 'FUCK']);
+        }
+
         
    
         if($order['payment']['method'] == "gcash"){
@@ -244,7 +266,7 @@ class OnepageController extends Controller
 
             $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
             CartPayment::where('cart_id', $cart->id)->update(['gcash_source_id' => json_decode($gcashResponse->getBody())->data->id]);
-            if($order_comment !== ""){
+            if($order_comment){
                 $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'cart_id' => $cart->id];
                 $this->orderCommentRepository->create($dataOrderComment);
     
@@ -266,7 +288,7 @@ class OnepageController extends Controller
 
         $order = $this->orderRepository->create($order);
 
-        if($order_comment !== ""){
+        if($order_comment){
             $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'order_id' => $order->id];
             $comment = $this->orderCommentRepository->create($dataOrderComment);
 
