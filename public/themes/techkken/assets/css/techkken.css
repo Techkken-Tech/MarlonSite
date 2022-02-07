@@ -1094,3 +1094,13 @@ ul.nav {
     margin-top: 0px;
 }
 }   
+
+.main.order-status h1,.main.order-status p{
+    text-align: center;
+} 
+.main.order-status .pending-animation img{
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
+}

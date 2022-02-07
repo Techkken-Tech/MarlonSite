@@ -285,6 +285,7 @@ return [
 
         //Techkken packages
         Techkken\Cashier\Providers\CashierServiceProvider::class,
+        Techkken\OrderStatusUpdates\Providers\OrderStatusUpdatesServiceProvider::class,
         //Techkken\Shop\Providers\ShopServiceProvider::class,
     ],
 
