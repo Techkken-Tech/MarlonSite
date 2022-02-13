@@ -10,7 +10,7 @@ use Webkul\Checkout\Models\CartPayment;
 use Webkul\Sales\Models\Order;
 use Webkul\Sales\Models\OrderPayment;
 use Webkul\Sales\Repositories\OrderRepository;
-
+use Illuminate\Support\Facades\Config;
 class GCashController extends Controller
 {
     //
@@ -50,13 +50,12 @@ class GCashController extends Controller
 
                 $client = new \GuzzleHttp\Client();
 
-                Log::debug(env('GCASH_SECRET_KEY'));
-
+                Log::debug("paymongo secret debug:".Config::get('paymongo.secret_key'));
                 $response = $client->request('POST', 'https://api.paymongo.com/v1/payments', [
                     'body' => $jsonFields,
                     'headers' => [
                         'Accept' => 'application/json',
-                        'Authorization' => 'Basic ' . base64_encode(env('GCASH_SECRET_KEY')),
+                        'Authorization' => 'Basic ' . base64_encode(Config::get('paymongo.secret_key')),
                         'Content-Type' => 'application/json',
                     ],
                 ]);
