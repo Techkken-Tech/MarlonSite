@@ -2,6 +2,7 @@
 
 namespace Webkul\Shop\Http\Controllers;
 
+use Exception;
 use Illuminate\Support\Facades\Event;
 use Webkul\Shop\Http\Controllers\Controller;
 use Webkul\Checkout\Facades\Cart;
@@ -21,6 +22,7 @@ use Webkul\Sales\Repositories\OrderCommentRepository;
 
 class OnepageController extends Controller
 {
+    const MINIMUM_CART_VALUE = 100;
     /**
      * OrderRepository object
      *
@@ -229,11 +231,21 @@ class OnepageController extends Controller
         
 
         $delivery_rate = $this->getRate($order['billing_address']['city']);
-        
-        if($cart->sub_total < $delivery_rate->minimum_cartvalue){
-            return response()->json(['success' => false, 'message' => 'FUCK']);
+    
+        if($order['shipping_method'] != "free_free")  // do not apply  minimum rate  on pickup store
+        {
+            if ($delivery_rate) {
+                if ($cart->sub_total < $delivery_rate->minimum_cartvalue) {
+                    Log::debug("Minimum delivery rate error");
+                    return response()->json(['success' => false, 'message' => __('Minimum delivery rate is : Php. ').$delivery_rate->minimum_cartvalue]);
+                }
+            } else {
+                if ($cart->sub_total < self::MINIMUM_CART_VALUE) {
+                    Log::debug("Minimum delivery rate error");
+                    return response()->json(['success' => false, 'message' => __('Minimum delivery rate is : Php. ').self::MINIMUM_CART_VALUE]);
+                }
+            }
         }
-
         
    
         if($order['payment']['method'] == "gcash"){
@@ -247,8 +259,8 @@ class OnepageController extends Controller
             $grandTotal = number_format($grandTotal, 2, '', '');
             $base_api = Config::get('paymongo.base_api');
             
-            
-            $gcashResponse = $client->request('POST', $base_api.'/sources', [
+            try {
+                $gcashResponse = $client->request('POST', $base_api.'/sources', [
             'body' => '{"data":{"attributes":{"amount":'.$grandTotal.',"redirect":{"success":"'. Config::get('paymongo.success_url').'/'.$orderedUuid.'","failed":"'.Config::get('paymongo.fail_url').'"},"type":"gcash","currency":"PHP"}}}',
             'headers' => [
                 'Accept' => 'application/json',
@@ -257,25 +269,28 @@ class OnepageController extends Controller
             ],
             ]);
 
-            if(isset(json_decode($gcashResponse->getBody())->errors)){
-
-                session()->flash('warning', json_decode($gcashResponse->getBody())->errors->detail);
-                return redirect()->route('shop.checkout.cart.index');
-            }
+                if (isset(json_decode($gcashResponse->getBody())->errors)) {
+                    session()->flash('warning', json_decode($gcashResponse->getBody())->errors->detail);
+                    return redirect()->route('shop.checkout.cart.index');
+                }
  
 
-            $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
-            CartPayment::where('cart_id', $cart->id)->update(['gcash_source_id' => json_decode($gcashResponse->getBody())->data->id]);
-            if($order_comment){
-                $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'cart_id' => $cart->id];
-                $this->orderCommentRepository->create($dataOrderComment);
-    
-            }
+                $gcashRedirectUrl = json_decode($gcashResponse->getBody())->data->attributes->redirect->checkout_url;
+                CartPayment::where('cart_id', $cart->id)->update(['gcash_source_id' => json_decode($gcashResponse->getBody())->data->id]);
+                if ($order_comment) {
+                    $dataOrderComment = ['comment' => $order_comment, 'customer_notified' => 0 ,'cart_id' => $cart->id];
+                    $this->orderCommentRepository->create($dataOrderComment);
+                }
 
-            return response()->json([
+                return response()->json([
                 'success'      => true,
                 'redirect_url' => $gcashRedirectUrl,
             ]);
+            }catch(Exception $e){
+                Log::debug("ERROR in Paymongo :".$e->getMessage());
+                return response()->json(['success' => false, 'message' => __('Error please contact administrator.')]);
+      
+            }
         }
 
 

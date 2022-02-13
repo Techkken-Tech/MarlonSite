@@ -38,9 +38,6 @@
                             @{{ addresses.state }},
                         </li>
 
-                        <li class="mb-15">
-                            @{{ addresses.country }}  @{{ addresses.postcode }}
-                        </li>
 
                         <li>
                             <b>{{ __('shop::app.customer.account.address.index.contact') }}</b> : @{{ addresses.phone }}
@@ -151,7 +148,7 @@
 
             <select class="control" id="billing[city]" name="billing[city]" v-model="address.billing.city" data-vv-as="&quot;{{ __('shop::app.checkout.onepage.city') }}&quot;">
                 @for ($i = 0; $i < count($deliveryRates); $i++)
-                   <option>{{$deliveryRates[$i]->name}}</option>
+                   <option>{{trim($deliveryRates[$i]->name)}}</option>
                 @endfor
             </select>
 
