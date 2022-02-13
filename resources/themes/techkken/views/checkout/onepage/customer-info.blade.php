@@ -31,11 +31,7 @@
                         </li>
 
                         <li class="mb-5">
-                            @{{ addresses.city }},
-                        </li>
-
-                        <li class="mb-5">
-                            @{{ addresses.state }},
+                            @{{ addresses.city }}
                         </li>
 
 
@@ -212,7 +208,7 @@
 
                         <ul class="address-card-list" style="float: right; width: 85%;">
                             <li class="mb-5" v-if="addresses.company_name != ''">
-                                @{{ addresses.company_name }}
+                                @{{ addresses.company_name }} 
                             </li>
 
                             <li class="mb-10">
@@ -224,15 +220,7 @@
                             </li>
 
                             <li class="mb-5">
-                                @{{ addresses.city }},
-                            </li>
-
-                            <li class="mb-5">
-                                @{{ addresses.state }},
-                            </li>
-
-                            <li class="mb-15">
-                                @{{ addresses.country }} @{{ addresses.postcode }}
+                                @{{ addresses.city }}
                             </li>
 
                             <li>
