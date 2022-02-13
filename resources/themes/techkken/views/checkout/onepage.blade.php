@@ -406,7 +406,7 @@
 
                             this_this.disable_button = false;
 
-                            window.flashMessages = [{'type': 'alert-error', 'message': response.data.success }];
+                            window.flashMessages = [{'type': 'alert-error', 'message': response.data.message }];
 
                             this_this.$root.addFlashMessages();
 
