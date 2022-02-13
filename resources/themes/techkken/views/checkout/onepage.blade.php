@@ -406,7 +406,7 @@
 
                             this_this.disable_button = false;
 
-                            window.flashMessages = [{'type': 'alert-error', 'message': "{{ __('Minimum Cart Value not reached.') }}" }];
+                            window.flashMessages = [{'type': 'alert-error', 'message': response.data.success }];
 
                             this_this.$root.addFlashMessages();
 

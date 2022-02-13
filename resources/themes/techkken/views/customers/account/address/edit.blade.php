@@ -78,12 +78,6 @@
                         </div>
                     @endif
 
-                    {!! view_render_event('bagisto.shop.customers.account.address.edit_form_controls.street-addres.after') !!}
-
-                    @include ('shop::customers.account.address.country-state', ['countryCode' => old('country') ?? $address->country, 'stateCode' => old('state') ?? $address->state])
-
-                    {!! view_render_event('bagisto.shop.customers.account.address.edit_form_controls.country-state.after') !!}
-
                     <div class="control-group" :class="[errors.has('city') ? 'has-error' : '']">
                         <label for="city" class="required">{{ __('shop::app.customer.account.address.create.city') }}</label>
                         <input type="text" class="control" name="city" v-validate="'required|regex:^[a-zA-Z \-]*$'" value="{{ old('city') ?: $address->city }}" data-vv-as="&quot;{{ __('shop::app.customer.account.address.create.city') }}&quot;">
