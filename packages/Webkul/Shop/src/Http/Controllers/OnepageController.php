@@ -234,18 +234,16 @@ class OnepageController extends Controller
     
         if($order['shipping_method'] != "free_free")  // do not apply  minimum rate  on pickup store
         {
-            if($delivery_rate){
-                if($cart->sub_total < $delivery_rate->minimum_cartvalue){
+            if ($delivery_rate) {
+                if ($cart->sub_total < $delivery_rate->minimum_cartvalue) {
                     Log::debug("Minimum delivery rate error");
                     return response()->json(['success' => false, 'message' => __('Minimum delivery rate is : Php. ').$delivery_rate->minimum_cartvalue]);
                 }
-            }else{
-                
-                if($cart->sub_total < self::MINIMUM_CART_VALUE){
+            } else {
+                if ($cart->sub_total < self::MINIMUM_CART_VALUE) {
                     Log::debug("Minimum delivery rate error");
                     return response()->json(['success' => false, 'message' => __('Minimum delivery rate is : Php. ').self::MINIMUM_CART_VALUE]);
                 }
-
             }
         }
         
