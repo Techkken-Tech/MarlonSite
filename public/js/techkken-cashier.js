@@ -25,7 +25,7 @@ function viewOrder(data_url) {
             console.log("GET Order Detail...");
 
             // Load Order Details in Modal
-            $('#data-order_no').text(result.id);
+            $('#data-order_no').text(result.increment_id);
             dt = new Date(result.created_at);
             $('#data-order_date').text(dt.toDateString());
             $('#data-order_status').text(result.status.charAt(0).toUpperCase() + result.status.slice(1));
