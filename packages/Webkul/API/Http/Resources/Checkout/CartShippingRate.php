@@ -29,7 +29,8 @@ class CartShippingRate extends JsonResource
             'base_price'          => $this->base_price,
             'formated_base_price' => core()->formatBasePrice($this->base_price),
             'created_at'          => $this->created_at,
-            'updated_at'          => $this->updated_at
+            'updated_at'          => $this->updated_at,
+            'minimum_cartvalue' => $this->minimum_cartvalue,
         ];
     }
 }

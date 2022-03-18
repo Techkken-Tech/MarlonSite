@@ -40,7 +40,6 @@ class UpdateCustomer
      */
     public function handle($order)
     {
-        Log::info('Handle Order: '.$order->id);
         if($order){
             event(new \Techkken\OrderStatusUpdates\Events\UpdatedOrder($order));
         }           

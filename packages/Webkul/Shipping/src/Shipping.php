@@ -114,7 +114,6 @@ class Shipping
 
             $rates[$rate->carrier]['rates'][] = $rate;
         }
-        \Illuminate\Support\Facades\Log::channel('rdebug')->info($rates);
         return $rates;
     }
 
