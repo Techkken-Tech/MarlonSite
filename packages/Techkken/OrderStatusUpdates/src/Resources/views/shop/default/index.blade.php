@@ -18,11 +18,25 @@
             // Subscribe to the channel we specified in our Laravel Event
             var channel = pusher.subscribe('order{{$order->id}}');
             channel.bind('pusher:subscription_succeeded', function(members) {
-                 console.log('successfully subscribed!');
             });
             // Bind a function to a Event (the full Laravel class)
             channel.bind('order{{$order->id}}', function(data) {
-                location.reload();
+                if(data != null){
+                    if(data.status == "completed"){
+                        $('.order-status-text').html(
+                            "{{__('This order is delivered.')}}<a href='/menu'> &nbsp; {{__('Click here to order again.')}}</a>"
+                        );
+                        $('.pending-animation img').attr("src","https://i.gifer.com/7efs.gif");
+
+                    }
+                    if(data.status == "processing"){
+                        $('.order-status-text').html(
+                            "{{__('Please wait for your order')}}"
+                        );
+                        $('.pending-animation img').attr("src","{{ bagisto_asset('images/delivering.gif') }}");
+
+                    }
+                }
             });
 
 </script>
@@ -36,7 +50,7 @@
             if ($order->status == 'pending') {
             
             ?>
-            <p>{{__('Your order is now being prepared.')}}</p>
+            <p class="order-status-text">{{__('Your order is now being prepared.')}}</p>
             <div class='pending-animation'><img class="img-fluid" src="https://i.gifer.com/3R7s.gif" /></div>
         <?php
             }
@@ -45,7 +59,7 @@
             if ($order->status == 'completed') {
             
             ?>
-            <p>{{__('This order is delivered.')}}<a href='/menu'> &nbsp; {{__('Click here to order again.')}}</a></p>
+            <p  class="order-status-text">{{__('This order is delivered.')}}<a href='/menu'> &nbsp; {{__('Click here to order again.')}}</a></p>
             <div class='pending-animation'><img src="https://i.gifer.com/7efs.gif" /></div>
         <?php
             }
@@ -54,7 +68,7 @@
             if ($order->status == 'processing') {
             
             ?>
-            <p>{{__('Please wait for your order')}}</p>
+            <p  class="order-status-text">{{__('Please wait for your order')}}</p>
             <div class='pending-animation'><img src="{{ bagisto_asset('images/delivering.gif') }}" /></div>
         <?php
             }

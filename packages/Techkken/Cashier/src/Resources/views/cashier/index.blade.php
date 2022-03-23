@@ -30,7 +30,7 @@
         @foreach ($orders as $order)
         <div class="cashier-row-card">
             <div class="cashier-row-order-no">
-                <div class="cashier-order-no">#<span>{{$order->id}}</span></div>
+                <div class="cashier-order-no">#<span>{{$order->increment_id}}</span></div>
             </div>
             <div class="cashier-left-border"></div>
             <div class="cashier-row-info">
@@ -47,6 +47,9 @@
                     @case("completed")
                     <span class="badge badge-md badge-success">{{ucfirst($order->status)}}</span>
                     @break
+                    @case("processing")
+                    <span class="badge badge-md badge-danger">{{__('Delivering')}}</span>
+                    @break
 
                     @default
 
@@ -56,10 +59,27 @@
             <div class="cashier-row-total">
                 PHP. {{number_format($order->base_grand_total_invoiced,2)}}
             </div>
-            <div class="cashier-row-action">
-                <div class="action-view" onclick="viewOrder('{{ route('cashier.viewOrder', [$order->id]) }}');"><span class="icon eye-icon"></span></div>
-                <a class="action-process" href="{{ route('cashier.processOrder', [$order->id]) }}"><span class="icon import-icon"></span></a>
-            </div>
+        <div class="cashier-row-action">
+            <div style="display:inline-block;margin-bottom:8px" class="action-view" onclick="viewOrder('{{ route('cashier.viewOrder', [$order->id]) }}');"><span class="btn btn-md btn-black">VIEW</span></div>
+            
+            <a class="action-process" href="{{ route('cashier.processOrder', [$order->id]) }}"><span class="btn btn-md btn-black">
+
+            @switch($order->status)
+                @case("pending")
+                    DELIVER
+                @break
+                
+                @case("processing")
+                    DONE
+                @break
+
+                @default
+
+            @endswitch
+
+
+            </span></a>
+        </div>
         </div>
         @endforeach
 
@@ -75,7 +95,6 @@
         <!-- Modal Footer -->
         <h2>Order #<span id="data-order_no">1</span></h2>
         <div class="cashier-modal-footer">
-            <button type="submit" class="btn btn-lg btn-primary" style="background-color: orange;">Cancel</button>
             <button type="submit" class="btn btn-lg btn-primary" style="background-color: green;" onclick="GeneratePDF();">Print</button></a>
         </div>
         <p><span>Date:</span><span id="data-order_date">&nbsp;</span></p>
@@ -107,7 +126,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.2.7/purify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.5.14/dist/jspdf.plugin.autotable.js"></script>
-<script src="{{ asset('js/Tahoma Regular font-normal.js') }}"></script>;
+<script src="{{ asset('js/Tahoma Regular font-normal.js') }}"></script>
 
 <script type="text/javascript">
     window.jsPDF = window.jspdf.jsPDF;
@@ -130,11 +149,11 @@
         doc.text(order_result.channel_name, 22, 4, 'center');
         //doc.setFontSize(6);
         doc.text("Thank you for your purchase!", 22, 7, 'center');
-        doc.text("Tel No: (02) 8888-8888", 22, 10, 'center');
+        doc.text("Tel:046-4022283/0943-1456414", 22, 10, 'center');
 
         //doc.text("***************************************************", 22, 10, 'center');
         var topY = 16;
-        doc.text("Order #: " + order_result.id, 0, topY);
+        doc.text("Order #: " + order_result.increment_id, 0, topY);
         var_date = new Date(order_result.created_at);
         topY += 3;
         doc.text("Date: " + var_date.toLocaleDateString(), 0, 19);

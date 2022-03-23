@@ -44,11 +44,18 @@
             });
 
             function refreshTable() {
+                notifyWebhook();
                 $('div.cashier-order-list').empty();
                 $('div.cashier-order-list').load("{{ route('cashier.table') }}", function() {
                     $('div.cashier-order-list').fadeIn();
                 });
             }
+            
+            function notifyWebhook() {
+                var audio = new Audio('https://bigsoundbank.com/UPLOAD/mp3/0160.mp3');
+                audio.play();
+            }
+
         </script>
     </head>
 
@@ -174,7 +181,10 @@
                     });
                 }
             });
+            
         </script>
+
+        
         @stack('scripts')
 
         {!! view_render_event('bagisto.admin.layout.body.after') !!}

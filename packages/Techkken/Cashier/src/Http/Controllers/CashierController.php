@@ -81,7 +81,7 @@ class CashierController extends Controller
                 $qry->where('status', strtolower($request->status));
             }
             else {
-                $qry->where('status', 'LIKE', 'pending%');
+                $qry->where('status', 'LIKE', 'processing%')->orWhere('status', 'LIKE', 'pending%');
             }
 
             if ($request->has('date_start') && $request->has('date_end') && $request->date_start != '' && $request->date_end != '') {
@@ -113,8 +113,8 @@ class CashierController extends Controller
         try {
             $qry = Order::query();
 
-            $qry->where('status', 'LIKE', 'pending%');
-
+  
+            $qry->where('status', 'LIKE', 'processing%')->orWhere('status', 'LIKE', 'pending%');
 
             //Execute the select query built by refactoring
             $page_count = 50;
@@ -208,7 +208,13 @@ class CashierController extends Controller
 
     public  function ProcessOrder($id){
         $order = $this->orderRepository->findOrFail($id);
-        $this->orderRepository->updateOrderStatus($order, 'processing');
+
+        if($order->status == "processing"){
+            $this->orderRepository->updateOrderStatus($order, 'completed');
+        }else{
+            $this->orderRepository->updateOrderStatus($order, 'processing');
+        }
+
 
 
         Event::dispatch('sales.order.process', $order);

@@ -52,9 +52,6 @@ class GenerateInvoice
     public function handle($order)
     {
         if ($order->payment->method == 'gcash' && core()->getConfigData('sales.paymentmethods.gcash.generate_invoice')) {
-            Log::channe('rdebug')->info(
-                "Generating invoice for gcash"
-            );
             $this->invoiceRepository->create($this->prepareInvoiceData($order), core()->getConfigData('sales.paymentmethods.gcash.invoice_status'), core()->getConfigData('sales.paymentmethods.gcash.order_status'));
             
             event(new \App\Events\NewOrderPlaced());
