@@ -282,6 +282,12 @@ class OnepageController extends Controller
                     $this->orderCommentRepository->create($dataOrderComment);
                 }
 
+                        
+                Cart::deActivateCart();
+
+                Cart::activateCartIfSessionHasDeactivatedCartId();
+
+
                 return response()->json([
                 'success'      => true,
                 'redirect_url' => $gcashRedirectUrl,
@@ -356,6 +362,8 @@ class OnepageController extends Controller
             return redirect()->route('shop.checkout.cart.index');
 
         }
+
+        Log::debug(Cart::prepareDataForOrder());
 
 
         if ($cartPayment) {
@@ -528,4 +536,6 @@ class OnepageController extends Controller
             'message' => ! $status ? trans('shop::app.checkout.cart.minimum-order-message', ['amount' => core()->currency($minimumOrderAmount)]) : 'Success',
         ]);
     }
+
+    
 }
