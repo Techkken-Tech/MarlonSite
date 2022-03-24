@@ -106,6 +106,11 @@ Route::group(['middleware' => ['web', 'locale', 'theme', 'currency']], function 
         'view' => 'shop::checkout.success'
     ])->name('shop.checkout.gcashsuccess');
 
+    // Checkout Gcash order fail.
+       Route::get('/checkout/fail/{slug}', 'Webkul\Shop\Http\Controllers\OnepageController@gcashfail')->defaults('_config', [
+        'view' => 'shop::checkout.fail'
+    ])->name('shop.checkout.gcashfail');
+
 
 
     /**

@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Config;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Webkul\Checkout\Models\CartPayment;
+use Webkul\Checkout\Repositories\CartRepository;
 use Webkul\Sales\Models\OrderComment;
 use Webkul\Sales\Repositories\OrderCommentRepository;
+use Webkul\Sales\Models\Order;
 
 class OnepageController extends Controller
 {
@@ -39,6 +41,8 @@ class OnepageController extends Controller
 
     protected $orderCommentRepository;
 
+    protected $cartRepository;
+
     /**
      * Create a new controller instance.
      *
@@ -50,7 +54,8 @@ class OnepageController extends Controller
     public function __construct(
         OrderRepository $orderRepository,
         CustomerRepository $customerRepository,
-        OrderCommentRepository $orderCommentRepository
+        OrderCommentRepository $orderCommentRepository,
+        CartRepository $cartRepository
 
     )
     {
@@ -58,7 +63,9 @@ class OnepageController extends Controller
 
         $this->customerRepository = $customerRepository;
 
-        $this->orderCommentRepository =$orderCommentRepository;
+        $this->orderCommentRepository = $orderCommentRepository;
+
+        $this->cartRepository = $cartRepository;
         parent::__construct();
     }
 
@@ -261,7 +268,7 @@ class OnepageController extends Controller
             
             try {
                 $gcashResponse = $client->request('POST', $base_api.'/sources', [
-            'body' => '{"data":{"attributes":{"amount":'.$grandTotal.',"redirect":{"success":"'. Config::get('paymongo.success_url').'/'.$orderedUuid.'","failed":"'.Config::get('paymongo.fail_url').'"},"type":"gcash","currency":"PHP"}}}',
+            'body' => '{"data":{"attributes":{"amount":'.$grandTotal.',"redirect":{"success":"'. Config::get('paymongo.success_url').'/'.$orderedUuid.'","failed":"'.Config::get('paymongo.fail_url').'/'.$orderedUuid.'"},"type":"gcash","currency":"PHP"}}}',
             'headers' => [
                 'Accept' => 'application/json',
                 'Authorization' => 'Basic '.base64_encode(Config::get('paymongo.public_key')),
@@ -353,7 +360,25 @@ class OnepageController extends Controller
         $cart =  Cart::getCart();
 
         if($cart == null){
-            return redirect()->route('shop.checkout.cart.index');
+            //return redirect()->route('shop.checkout.cart.index');
+            $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
+
+            if($cartPayment!=null){
+                $order = Order::where('cart_id','=',$cartPayment->cart_id)->first();
+                
+                if($order!=null){
+                    session()->flash('order', $order);
+                    return view($this->_config['view'], compact('order'));
+                }else{
+                    session()->flash('warning', 'No items in cart');
+                    return redirect()->route('shop.checkout.cart.index');
+                }
+            }else{
+                session()->flash('warning', 'No items in cart');
+                return redirect()->route('shop.checkout.cart.index');
+            }
+
+
         }
 
         $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
@@ -362,8 +387,6 @@ class OnepageController extends Controller
             return redirect()->route('shop.checkout.cart.index');
 
         }
-
-        Log::debug(Cart::prepareDataForOrder());
 
 
         if ($cartPayment) {
@@ -387,6 +410,49 @@ class OnepageController extends Controller
 
         }
     }
+
+
+        /**
+     * Order success page
+     *
+     * @return \Illuminate\Http\Response
+    */
+    public function gcashfail(Request $request, $slug)
+    {
+        //TODO check if random token match with current cart 
+        $cart =  Cart::getCart();
+
+        if($cart == null){
+            //return redirect()->route('shop.checkout.cart.index');
+            $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
+
+            if($cartPayment!=null){
+
+                $cart = $this->cartRepository->findOrFail($cartPayment->cart_id);
+                $this->cartRepository->update(['is_active' => true], $cartPayment->cart_id);
+                session()->put('cart', $cart);
+                session()->flash('warning', 'Gcash Payment failed');
+                return redirect()->route('shop.checkout.cart.index');
+
+            }else{
+                session()->flash('warning', 'No items in cart');
+                return redirect()->route('shop.checkout.cart.index');
+            }
+
+
+        }
+
+        $cartPayment = CartPayment::where('temp_source','=', $slug)->first();
+        if ($cartPayment == null) {
+            session()->flash('warning', 'Token is not valid . Please try again.');
+            return redirect()->route('shop.checkout.cart.index');
+
+        }
+
+
+        return redirect()->route('shop.checkout.cart.index');
+    }
+
 
     /**
      * Validate order before creation

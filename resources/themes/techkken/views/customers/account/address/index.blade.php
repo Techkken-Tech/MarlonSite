@@ -19,8 +19,8 @@
 
                 @if (! $addresses->isEmpty())
                     <span class="account-action">
-                    <a href="{{ route('customer.address.create') }}">{{ __('shop::app.customer.account.address.index.add') }}</a>
-                </span>
+                   
+                    </span>
                 @else
                     <span></span>
                 @endif
@@ -31,9 +31,8 @@
 
             <div class="account-table-content">
                 @if ($addresses->isEmpty())
-                    <div>{{ __('shop::app.customer.account.address.index.empty') }}</div>
+                    <div>No Address Saved</div>
                     <br/>
-                    <a href="{{ route('customer.address.create') }}">{{ __('shop::app.customer.account.address.index.add') }}</a>
                 @else
                     <div class="address-holder">
                         @foreach ($addresses as $address)

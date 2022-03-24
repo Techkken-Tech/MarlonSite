@@ -93,27 +93,45 @@ class GCashController extends Controller
 
                 Log::debug("cart_id", [$cart_payment[0]->cart_id]);
 
-
-                $cart = $this->cartRepository->findOrFail($cart_payment[0]->cart_id);
-
-                Log::debug($cart);
+                if(isset($cart_payment[0]->cart_id)){
+                    $cart = $this->cartRepository->findOrFail($cart_payment[0]->cart_id);
 
 
+                    $order = $this->orderRepository->create($this->cartGcashPrepareDataForOrder($cart));
+                    //update order_comment
+    
+                    OrderComment::where('cart_id', $cart->id)->update(['order_id' => $order->id]);
+    
+                    //Deactivate cart
+                    $this->cartRepository->update(['is_active' => false], $order->cart_id);
+    
+    
+                    $order_update = Order::findOrFail($order->id);
+                    // Update Order Status from Pending Payment to Pending.
+                    $order_update->status = "pending";
+                    $order_update->save();  
+                }
 
-                $order = $this->orderRepository->create($this->cartGcashPrepareDataForOrder($cart));
-                //update order_comment
-
-                OrderComment::where('cart_id', $cart->id)->update(['order_id' => $order->id]);
-
-                //Deactivate cart
-                $this->cartRepository->update(['is_active' => false], $order->cart_id);
-
-
-                $order_update = Order::findOrFail($order->id);
-                // Update Order Status from Pending Payment to Pending.
-                $order_update->status = "pending";
-                $order_update->save();
+                
             }
+            elseif($type == 'payment.failed') {
+                $source_id = $payload['data']['attributes']['data']['attributes']['source']['id'];
+                Log::debug("payment.failed webhook", [$source_id]);
+
+                $cart_payment = CartPayment::where('gcash_source_id', $source_id)->get();
+                Log::debug("cart_payment", [$cart_payment]);
+
+                Log::debug("cart_id", [$cart_payment[0]->cart_id]);
+
+
+              
+                if(isset($cart_payment[0]->cart_id)){
+                    $this->cartRepository->update(['is_active' => true], $cart_payment[0]->cart_id);
+                }
+
+
+            }
+            
 
             return response('', 200);
         } catch (Exception $ex) {
